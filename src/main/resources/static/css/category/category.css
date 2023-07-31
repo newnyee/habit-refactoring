@@ -1,0 +1,769 @@
+
+body{
+    height: 100%;
+    font-family: 'SUIT-Regular';
+}
+
+.global1{
+    background-color: rgb(230, 230, 230);
+    z-index: 12;
+    position: relative;
+}
+
+/*호스트 지원배너*/
+.Home_smallBanner2{
+    height: 120px;
+    --background-color: bisque;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.Home_smallBanner2>div>a>img{
+    width: 738px;;
+}
+
+/*검색모달*/
+.global_modal{
+    position: absolute;
+    top: 110px;
+    left: 0;
+
+    width: 100%;
+    --height: 100%;
+    margin:0 auto;
+    display: none;
+    z-index: 11;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.global_modal_form{
+    background-color: white;
+    
+}
+
+.global_topbar2_search{
+    width: 56%;
+    height: 100%;
+    position:relative;
+    top:0px;
+    margin: 0 auto 0 auto;
+    
+    width:740px;
+    padding:0 50px 40px 50px;
+    --border: 1px solid black;
+}
+
+.global_modal_bottom{
+    position: relative;
+    --height: 100%;
+    overflow: hidden;
+}
+
+.global_modal_wrapper{
+    padding-top: 20px;
+}
+
+.global_modal_search{
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 20px;
+
+}
+
+.global_modal_search>div{
+    display: inline-block;
+}
+
+.global_modal_search_del{
+    float: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgb(149, 149, 149);
+}
+
+.global_modal_searchNew{
+    --display: inline-block;
+    --margin: 25px 0;
+    --width: 66px;
+    height: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    --text-align: center;
+    padding: 14px 0;
+    color: black;
+    
+}
+
+
+.global_modal_searchNew:hover{
+    background-color: #eceef8;
+}
+
+.global_modal_searchResult{
+    display: inline-block;
+    margin-right:10px;
+    width: 66px;
+    height: 33px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 9px 0;
+    border: 1px solid #617cf5;
+    color: #617cf5;
+    border-radius: 5px;
+}
+
+
+/* ==============^ 카테고리 ===================*/
+.Home{
+    
+    height: 100%;
+    width: 1000px;
+    margin: 0 auto;
+    padding:0 100px;
+    
+
+}
+.PageWrapper {
+    cursor: default;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px;
+    color: black;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    flex-flow: column nowrap;
+    align-content: flex-start;
+    margin: 0px auto;
+    max-width: 808px;
+    width: 100%;
+    padding: 0px 20px;
+    min-height: 1px;
+}
+
+.Padded {
+    cursor: default;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px;
+    color: black;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    padding: 0px 42px;
+}
+
+.Left-LeftPageTitle{
+    cursor: default;
+    -webkit-text-size-adjust: 100%;
+    color: black;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    margin: 24px 0px 16px;
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.CategoryList__Wrapper {
+    cursor: default;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px;
+    color: black;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    justify-items: center;
+}
+
+.Fade_Wrapper {
+    cursor: default;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px;
+    color: black;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    width: auto;
+    height: auto;
+    transition: opacity 200ms ease-in-out 0s;
+    min-width: 0px;
+    min-height: 1px;
+    opacity: 1;
+    display: block;
+}
+
+.CategoryItem-A {
+line-height: 1.5;
+-webkit-text-size-adjust: 100%;
+font-size: 14px;
+word-break: normal;
+overflow-wrap: break-word;
+background-repeat: no-repeat;
+box-sizing: inherit;
+outline: none;
+font-family: inherit;
+background-color: transparent;
+touch-action: manipulation;
+color: inherit;
+text-decoration: none;
+width: 100%;
+display: table;
+}
+
+.CategoryItem1 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-outdoor_gch4e1");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem2 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-fitness_j83hn7");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem3 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-diy_racpb5");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem4 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-sports_k9xead");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem5 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-baking_ym1bmw");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem6 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-culture_bvlt2h");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem7 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-online_y7roxo");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem8 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-development_f4knbj");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem9 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-beauty_rckkzc");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem10 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-social_l5ypkp");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem11 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/category-store_ygtufv");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem12 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/%E1%84%89%E1%85%B5%E1%86%B7%E1%84%85%E1%85%B5%E1%84%89%E1%85%A1%E1%86%BC%E1%84%83%E1%85%A1%E1%86%B7_%E1%84%8F%E1%85%A1%E1%84%90%E1%85%A6%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5_781c3f80bc5405b62c376e5028924addc30b6a1277cc600245ba83d729d906fb");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem13 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_8_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem14 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_14_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem15 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_13_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem16 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_2_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem17 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_18_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+.CategoryItem18 {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    display: flex;
+    align-items: flex-end;
+    height: 77px;
+    border-radius: 5px;
+    padding: 6px 10px;
+    background-image: url("https://res.cloudinary.com/frientrip/image/upload/c_fill,dpr_2,f_auto,h_77,q_auto,w_162/v1/categories/display_category_17_p");
+    background-color: rgb(244, 244, 244);
+    background-size: cover;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    position: relative;
+}
+
+
+  .CategoryItem__Background {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    opacity: 0.2;
+    background-color: rgb(17, 17, 17);
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    border-radius: 5px;
+}
+
+.CategoryItem__Text {
+    -webkit-text-size-adjust: 100%;
+    word-break: normal;
+    overflow-wrap: break-word;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.48px;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+    outline: none;
+    font-family: inherit;
+    opacity: 0.2;
+    background-image: linear-gradient(to right, rgb(3, 0, 0), rgba(2, 0, 0, 0.52), rgba(0, 0, 0, 0));
+    width: 94px;
+    height: 100%;
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    border-radius: 5px;
+} 
+
+.CategoryItem1 > span {
+    z-index: 1;
+}
+.CategoryItem2 > span {
+    z-index: 1;
+}
+.CategoryItem3 > span {
+    z-index: 1;
+}
+.CategoryItem4 > span {
+    z-index: 1;
+}
+.CategoryItem5 > span {
+    z-index: 1;
+}
+.CategoryItem6 > span {
+    z-index: 1;
+}
+.CategoryItem7 > span {
+    z-index: 1;
+}
+.CategoryItem8 > span {
+    z-index: 1;
+}
+.CategoryItem9 > span {
+    z-index: 1;
+}
+.CategoryItem10 > span {
+    z-index: 1;
+}
+.CategoryItem11 > span {
+    z-index: 1;
+}
+.CategoryItem12 > span {
+    z-index: 1;
+}
+.CategoryItem13 > span {
+    z-index: 1;
+}
+.CategoryItem14 > span {
+    z-index: 1;
+}
+.CategoryItem15 > span {
+    z-index: 1;
+}
+.CategoryItem16 > span {
+    z-index: 1;
+}
+.CategoryItem17 > span {
+    z-index: 1;
+}
+.CategoryItem18 > span {
+    z-index: 1;
+}

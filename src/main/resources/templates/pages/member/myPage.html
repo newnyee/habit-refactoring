@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content"
+>
+<head>
+  <title>해빗(habit) : 세상 모든 취미 여가의 시작</title>
+  <script src="/js/mypage.js"></script>
+  <link rel="stylesheet" href="/css/mypage.css">
+</head>
+
+<body>
+  <!-- 본문 시작 -->
+  <div class="Home">
+    <a href="#"><div class="Home_myinfo"> <!--링크-->
+      <div class="Home_myinfo_img">
+        <img src="img/ang.png" alt="">
+      </div>
+      <div class="Home_myinfo_name">
+        김해빗
+      </div>
+    </div></a>
+    <!--마이 정보 끝-->
+
+    <div class="Home_myrecord">
+      <a href="#"> <!--링크-->
+        <div class="Home_myrecord_name">에너지</div>
+        <div class="Home_myrecord_num">0</div>
+      </a>
+      <a href="#"> <!--링크-->
+        <div class="Home_myrecord_name">후기</div>
+        <div class="Home_myrecord_num">0</div>
+      </a>
+    </div>
+    <!--마이 기록 정보 끝-->
+    <hr>
+    <div class="Home_myact">
+      <div class="Home_myact_name">내 활동</div>
+      <a href="#"> <!--링크-->
+        <div class="Home_myact_order">
+          결제내역
+        </div>
+      </a>
+    </div>
+    <hr>
+    <!--고객센터-->
+    <div class="Home_myact">
+      <div class="Home_myact_name">고객센터</div>
+      <a href="#">
+        <div class="Home_myact_friend1">
+          1:1 문의
+        </div>
+      </a>
+    </div>
+    <hr>
+    <!--호스트지원-->
+    <div class="Home_myact">
+      <div class="Home_myact_name">호스트</div>
+      <a>
+        <div class="Home_myact_order">
+          호스트 지원
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- 본문 끝-->
+</body>

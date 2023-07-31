@@ -1,0 +1,200 @@
+section{
+
+
+    --margin:20px;
+    --padding:20px;
+}
+
+
+.Home_form{
+    margin-bottom: 50px;
+}
+
+#pagetitle_pay{
+    font-size:20px;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.paypage_title {
+    font-size: 17px;
+    font-weight: bold;
+    margin:20px 20px;
+
+    display: inline-block;
+
+
+}
+
+#frip_img > img {
+    width:160px;
+    height:150px;
+    border-line:2px solid black;
+    border-radius: 20%;
+}
+
+#fripinfo{
+    display:flex;
+}
+
+.title_div{
+    display: inline-block;
+    height: 100%;
+    padding-top: 35px;
+    padding-left: 30px;
+}
+.title_div>p
+
+ {
+
+
+    margin:20px 30px;
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+.title_div > p + span {
+
+
+    margin-bottom: 10px;
+    margin-left:30px;
+
+}
+
+section > li {
+    padding:10px;
+}
+
+
+input[type='radio']{
+    display: none;
+}
+input[type='radio']+label{
+    margin-left:5px;
+    padding:15px;
+    display: inline-block;
+    cursor: pointer;
+    height: 50px;
+    width: 300px;
+    border: 1px solid gray;
+    text-align: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size:20px;
+    background-color: #fff;
+    color: #333;
+    justify-content: space-between;
+
+}
+input[type='radio']:checked+label{
+    background-color: hotpink;
+    color:white;
+    border-color: white;
+
+}
+
+.paypage_title>input[type='text']{
+    margin:5px;
+    border:1px solid gray;
+    width:300px;
+    height:40px;
+    border-radius: 20px;
+}
+
+input[type='button']{
+    width:100px;
+    height:40px;
+    background-color: #b0b0b0;
+    color:#fff;
+    border:2px solid white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+input[type='button']:hover{
+    background-color: hotpink;
+}
+
+section>span+input[type='text']{
+    margin-right: 0px;
+    text-align: right;
+    font-size:x-large;
+    font-weight:bolder;
+    color:hotpink;
+    border-style: none;
+}
+
+
+.box-radio-input input[type="radio"]{
+    display:none;
+  }
+
+  .box-radio-input input[type="radio"] + span{
+    display:inline-block;
+    background:none;
+    border:1px solid #dfdfdf;
+    padding:0px 10px;
+    text-align:center;
+    height:35px;
+    line-height:33px;
+    font-weight:500;
+    cursor:pointer;
+    border-radius: 20px;
+  }
+
+  .box-radio-input input[type="radio"]:checked + span{
+    border:1px solid hotpink;
+    background:hotpink;
+    color:#fff;
+  }
+
+
+  input[type='submit']{
+    width:100%;
+    height:50px;
+    color:white;
+    background-color: hotpink;
+    text-align: center;
+    border-radius: 20px;
+    border-color:hotpink;
+  }
+
+  #paybtn {
+      width:100%;
+      height:50px;
+      color:white;
+      background-color: hotpink;
+      text-align: center;
+      border-radius: 20px;
+      border-color:hotpink;
+  }
+
+  .tos_btn{
+    height:30px;
+    background-color: #b0b0b0;
+    border: none;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .tos_a{
+    font-size: 14px;
+
+    padding-left: 20px;
+  }
+
+  #tot_price{
+      display: inline-block;
+      margin-left: 100px;
+  }
+
+  .recommend_ment{
+      padding:10px 0 20px 20px;
+  }
+
+  #with_somebody{
+      padding-left: 20px;
+
+  }

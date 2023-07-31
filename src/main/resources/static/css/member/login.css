@@ -1,0 +1,59 @@
+/*login.css*/
+.Home_top{
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.Home_loginForm{
+    margin-bottom: 125px;
+    width: 100%;
+    padding: 24px 150px;
+}
+
+.Home_loginForm_input>input{
+    margin: 5px auto;
+    --width: 40px;
+    width:340px;
+    height:50px;
+    font-size:15px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 2px;
+    background-color: #f6f6f6;
+    padding-left: 10px;
+}
+
+.Home_loginForm_input>input:focus{
+    outline: 1px solid #bbc6ff;
+    background-color: white;
+}
+
+.Home_find_a1{
+    display: inline-block;
+    --float: left;
+    font-size: 15px;
+    color: gray;
+    margin-top: 8px;
+    margin-left: 15px;
+
+}
+
+.Home_find_a2{
+    display: inline-block;
+    --float: right;
+    font-size: 15px;
+    color: gray;
+    margin-top: 6px;
+
+}
+
+.Home_login_btn{
+    margin-top: 16px;
+    width: 340px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: #7792ff;
+}

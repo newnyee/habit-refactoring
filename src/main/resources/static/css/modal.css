@@ -1,0 +1,89 @@
+.global_modal{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    --height: 100%;
+    margin:0 auto;
+    display: none;
+    z-index: 11;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.global_modal_form{
+    background-color: white;
+    
+}
+
+.global_topbar2_search{
+    width: 56%;
+    height: 100%;
+    position:relative;
+    top:0px;
+    margin: 0 auto 0 auto;
+    
+    width:740px;
+    padding:0 50px 40px 50px;
+    --border: 1px solid black;
+}
+
+.global_modal_bottom{
+    position: relative;
+    --height: 100%;
+    overflow: hidden;
+}
+
+.global_modal_wrapper{
+    padding-top: 20px;
+}
+
+.global_modal_search{
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 20px;
+
+}
+
+.global_modal_search>div{
+    display: inline-block;
+}
+
+.global_modal_search_del{
+    float: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgb(149, 149, 149);
+}
+
+.global_modal_searchNew{
+    --display: inline-block;
+    --margin: 25px 0;
+    --width: 66px;
+    height: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    --text-align: center;
+    padding: 14px 0;
+    color: black;
+    
+}
+
+
+.global_modal_searchNew:hover{
+    background-color: #eceef8;
+}
+
+.global_modal_searchResult{
+    display: inline-block;
+    margin-right:10px;
+    width: 66px;
+    height: 33px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 9px 0;
+    border: 1px solid #617cf5;
+    color: #617cf5;
+    border-radius: 5px;
+}

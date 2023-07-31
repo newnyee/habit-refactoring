@@ -1,0 +1,42 @@
+.show_userInfo{
+    display: none;
+    position: absolute;
+    background-color: #dedede;
+    border: 2px solid #fea2c9;
+    border-radius: 5px;
+    height: 200px;
+    width: 250px;
+    top:93%;
+    left: 2%;
+    padding: 15px;
+}
+
+.hide_user{
+    position: absolute;
+    right: 4px;
+    top:2px;
+    font-size: 16px;
+}
+
+.show_userwrapper{
+    background-color: white;
+    height: 100%;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+
+.user_sub{
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.user_info{
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.user_td:hover{
+    background-color: #ffdde4;
+}

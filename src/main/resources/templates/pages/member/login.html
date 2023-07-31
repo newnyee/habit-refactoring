@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}"
+      layout:fragment="Content"
+>
+<head>
+  <script src="/js/login.js"></script>
+  <link rel="stylesheet" href="/css/member/login.css">
+  <title>로그인 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+</head>
+
+<body>
+  <!-- 본문 시작 -->
+  <div class="Home">
+    <div class="Home_top">
+      <h3>로그인</h3>
+    </div>
+
+    <div class="Home_loginForm">
+      <form action="/login" method="post">
+        <input type="hidden" value="${redirectURL}" name="redirectURL">
+        <div class="Home_loginForm_input"><input type="text" name="user_id" placeholder="아이디(이메일)"></div>
+        <div class="Home_loginForm_input"><input type="password" name="user_pw" placeholder="비밀번호"></div>
+        <div style="text-align: center">
+          <a href="/newMember" class="Home_find_a1">회원가입</a> |
+          <a href="/findMember" class="Home_find_a2">아이디/비밀번호 찾기</a><br>
+        </div>
+        <button class="Home_login_btn">로그인</button>
+      </form>
+    </div>
+  </div>
+  <!-- 본문 끝-->
+</body>

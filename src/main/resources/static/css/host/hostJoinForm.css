@@ -1,0 +1,22 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.error_class{
+
+    color: red;
+    font-weight: 600;
+}
+.hostNameError{
+    display: none;
+}
+
+.hostEmail1{
+    display: none;
+}
+
+.hostEmail2{
+    display: none;
+}
