@@ -1,4 +1,4 @@
-// habit_inquiry_control.js
+// hostQuestionList.js
 $(document).ready(()=>{
 
     let searchResult = $('#searchResult')

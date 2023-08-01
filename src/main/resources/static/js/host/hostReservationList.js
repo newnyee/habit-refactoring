@@ -1,4 +1,4 @@
-// habit_reservation_control.js
+// hostReservationList.js
 
 $(document).ready(()=>{
 
