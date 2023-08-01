@@ -80,4 +80,15 @@ public class MemberController {
             return "pages/member/login";
         }
     }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        // 현재 세션을 무효화하여 모든 세션 정보를 삭제
+        session.invalidate();
+
+        // 로그인 페이지로 리다이렉트
+        return "redirect:login";
+    }
 }
