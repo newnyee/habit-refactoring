@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://tymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +19,17 @@
   <div class="global1">
     <div class="global_topbar">
       <div class="global_topbar_menu1" >
-        <a href="/host/joinform"><div class="global_topbar_menu1_menu">호스트지원</div></a>
+        <a href="/host/join"><div class="global_topbar_menu1_menu">호스트지원</div></a>
       </div>
-      <div class="global_topbar_menu2" >
-        <a href="/member/joinform" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">회원가입</div></a>
+      <div th:if='${session.get("s_id")==null}' class="global_topbar_menu2">
+        <a href="/member/join" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">회원가입</div></a>
         <a href="/member/login" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">로그인</div></a>
       </div>
+      <div th:unless='${session.get("s_id")==null}' class="global_topbar_menu2">
+        <a href="/member/mypage" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu"><span class="s_id" th:text='${session.get("s_name")}'></span>님</div></a>
+        <a href="/member/logout" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu"><button style="display: inline-block; border:0.5px solid rgb(165, 165, 165); background-color: white; border-radius: 2px;">로그아웃</button></div></a>
+      </div>
+
     </div>
   </div>
 

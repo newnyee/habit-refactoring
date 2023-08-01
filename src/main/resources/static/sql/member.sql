@@ -4,20 +4,27 @@ CREATE TABLE MEMBER (
     MEM_NAME    varchar(130)  NOT NULL,
     MEM_EMAIL   varchar(100)  NOT NULL,
     MEM_PHONE   varchar(16)   NOT NULL,
-    MEM_BIRTH   char(1)       NOT NULL,
+    MEM_BIRTH   char(8)       NOT NULL,
     MEM_GENDER  char(1)       NOT NULL,
-    MEM_IMG     text          NOT NULL  DEFAULT default,
+    MEM_IMG     text          NOT NULL  DEFAULT 'member_default_img.png',
     MEM_STATUS  char(1)       NOT NULL  DEFAULT 'O',
     MEM_CLASS   char(1)       NOT NULL  DEFAULT 'M',
     MEM_LEVEL   char(1)       NOT NULL  DEFAULT 'B',
     MEM_DATE    datetime      NOT NULL  DEFAULT now()
 );
 
+insert into MEMBER (MEM_ID, MEM_PW, MEM_NAME, MEM_EMAIL, MEM_PHONE, MEM_BIRTH, MEM_GENDER)
+values ('user-1', '1234', '유저1', 'user1@itwill.com', '010-1234-1234', '19990101', 'M');
+
+insert into MEMBER (MEM_ID, MEM_PW, MEM_NAME, MEM_EMAIL, MEM_PHONE, MEM_BIRTH, MEM_GENDER)
+values ('user-2', '1234', '유저2', 'user2@itwill.com', '010-1234-1234', '19980101', 'W');
+
+
 CREATE TABLE HOST (
     HOST_ID        varchar(25)   NOT NULL  primary key,
     HOST_NAME      varchar(130)  NOT NULL,
     HOST_PHONE     varchar(16)   NOT NULL,
-    HOST_IMG       text          NOT NULL  DEFAULT default,
+    HOST_IMG       text          NOT NULL  DEFAULT 'host_default_img.png',
     HOST_EMAIL     varchar(100)  NOT NULL,
     HOST_INTRO     text(1600)    NULL,
     HOST_ACCOUNT   varchar(50)   NULL,

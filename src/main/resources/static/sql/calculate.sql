@@ -1,5 +1,5 @@
 CREATE TABLE CALCULATE (
-    CALC_NO             varchar(35)   NOT NULL  auto_increment  primary key,
+    CALC_NO             varchar(35)   NOT NULL  primary key,
     PROD_NO             int           NOT NULL,
     HOST_ID             varchar(25)   NOT NULL,
     CALC_PERIOD         varchar(50)   NOT NULL,

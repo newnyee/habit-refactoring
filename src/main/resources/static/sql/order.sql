@@ -6,7 +6,7 @@ CREATE TABLE CART (
     CART_DATE  datetime     NOT NULL  DEFAULT now()
 );
 
-CREATE TABLE ORDER (
+CREATE TABLE `ORDER` (
     ORD_NO      varchar(20)  NOT NULL  primary key,
     MEM_ID      varchar(25)  NOT NULL,
     ORD_TOTAL   int          NOT NULL  DEFAULT 0,

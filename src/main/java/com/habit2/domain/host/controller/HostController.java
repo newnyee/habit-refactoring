@@ -15,7 +15,7 @@ public class HostController {
         return "pages/host/hostHome";
     }
 
-    @GetMapping("/joinform")
+    @GetMapping("/join")
     public String joinForm() {
         return "pages/host/hostJoinForm";
     }

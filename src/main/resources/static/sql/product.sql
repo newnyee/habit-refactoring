@@ -15,7 +15,7 @@ CREATE TABLE PRODUCT (
     PROD_EXTRADDR  varchar(30)  NULL,
     PROD_START     datetime     NOT NULL  DEFAULT now(),
     PROD_END       datetime     NOT NULL,
-    PROD_IMG       text         NOT NULL  DEFAULT default,
+    PROD_IMG       text         NOT NULL,
     PROD_CONTENT   longtext     NOT NULL,
     PROD_STATUS    char(1)      NOT NULL  DEFAULT 'Y',
     PROD_VIEW      int          NOT NULL  DEFAULT 0,

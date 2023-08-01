@@ -20,12 +20,13 @@
     </div>
 
     <div class="Home_loginForm">
-      <form action="/login" method="post">
+      <div th:if="${error!=null}" style="color: red; margin-bottom: 3px; text-align: center" th:text="${error}"></div>
+      <form action="/member/login" method="post">
         <input type="hidden" value="${redirectURL}" name="redirectURL">
-        <div class="Home_loginForm_input"><input type="text" name="user_id" placeholder="아이디(이메일)"></div>
-        <div class="Home_loginForm_input"><input type="password" name="user_pw" placeholder="비밀번호"></div>
+        <div class="Home_loginForm_input"><input type="text" name="mem_id" placeholder="아이디(이메일)"></div>
+        <div class="Home_loginForm_input"><input type="password" name="mem_pw" placeholder="비밀번호"></div>
         <div style="text-align: center">
-          <a href="/newMember" class="Home_find_a1">회원가입</a> |
+          <a href="/member/join" class="Home_find_a1">회원가입</a> |
           <a href="/findMember" class="Home_find_a2">아이디/비밀번호 찾기</a><br>
         </div>
         <button class="Home_login_btn">로그인</button>
