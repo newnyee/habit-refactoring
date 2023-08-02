@@ -5,7 +5,7 @@
 
 <!-- product.xml -->
 <mapper namespace="host">
-    <insert id="hostJoin" parameterType="com.habit2.domain.host.model.Host">
+    <insert id="hostJoin" parameterType="com.habit2.domain.host.model.HostEntity">
         insert into habit2.host(host_id,host_name,host_phone,host_email,host_img)
         values(#{host_id},#{host_name},#{host_phone},#{host_email},#{host_img})
     </insert>
@@ -13,7 +13,19 @@
     <select id="findHostName" parameterType="String" resultType="com.habit2.domain.host.dto.HostLoginDto">
         SELECT host_name, host_img
         FROM habit2.host
-        WHERE host_id = #{mem_id}
+        WHERE host_id = #{host_id}
     </select>
+
+    <select id="getHostInfo" parameterType="String" resultType="com.habit2.domain.host.model.HostEntity">
+        SELECT host_id, host_img, host_name, host_email, host_phone, host_intro, host_bank, host_acholder, host_account
+        FROM habit2.host
+        WHERE host_id = #{host_id}
+    </select>
+
+<!--    <select id="getHostInfo" parameterType="String" resultType="com.habit2.domain.host.dto.ResponseHostInfoDto">-->
+<!--        SELECT host_id, host_img, host_name, host_email, host_phone, host_intro, host_bank, host_acholder, host_account-->
+<!--        FROM habit2.host-->
+<!--        WHERE host_id = #{host_id}-->
+<!--    </select>-->
 
 </mapper>

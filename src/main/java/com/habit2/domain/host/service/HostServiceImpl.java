@@ -2,6 +2,7 @@ package com.habit2.domain.host.service;
 
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.ResponseHostInfoDto;
 import com.habit2.domain.host.repository.HostRepository;
 import com.habit2.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class HostServiceImpl implements HostService {
         MultipartFile hostImgFile = hostJoinDto.getHost_imgFile();
         if (hostImgFile != null && !hostImgFile.isEmpty()) {
             long nano = System.currentTimeMillis();
-            String now = new SimpleDateFormat("SSSssmmHHddMMYY").format(nano);
+            String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
             host_img = now + hostImgFile.getOriginalFilename();
             File targetFile = new File(path, host_img);
             InputStream filesStream = hostImgFile.getInputStream();
@@ -74,8 +75,34 @@ public class HostServiceImpl implements HostService {
 
     // 호스트 로그인
     @Override
-    public HostLoginDto hostLogin(String mem_id) {
-        return hostRepository.findHostName(mem_id);
+    public HostLoginDto hostLogin(String host_id) {
+        return hostRepository.findHostName(host_id);
+    }
+
+    // 호스트 정보 수정
+    @Override
+    public ResponseHostInfoDto getHostInfo(String host_id) {
+
+        ResponseHostInfoDto hostInfo = hostRepository.getHostInfo(host_id);
+
+        log.debug("hostInfoValue={}", hostInfo);
+
+        if (hostInfo != null) {
+            // 이메일
+            String hostEmail = hostInfo.getHost_email();
+            String[] hostEmails = hostEmail.split("@");
+            hostInfo.setHost_email(hostEmails[0]);
+            hostInfo.setHost_email2(hostEmails[1]);
+
+            // 연락처
+            String hostPhone = hostInfo.getHost_phone();
+            String[] hostPhones = hostPhone.split("-");
+            hostInfo.setHost_phone(hostPhones[0]);
+            hostInfo.setHost_phone2(hostPhones[1]);
+            hostInfo.setHost_phone3(hostPhones[2]);
+        }
+
+        return hostInfo;
     }
 
 }

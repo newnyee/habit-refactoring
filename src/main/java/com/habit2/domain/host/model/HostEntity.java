@@ -1,15 +1,13 @@
 package com.habit2.domain.host.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
-public class Host {
+@NoArgsConstructor
+public class HostEntity {
     private String host_id;
     private String host_name;
     private String host_phone;

@@ -2,6 +2,7 @@ package com.habit2.domain.host.controller;
 
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.ResponseHostInfoDto;
 import com.habit2.domain.host.service.HostService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -23,11 +23,6 @@ import java.util.Map;
 public class HostController {
 
     private final HostService hostService;
-
-    @GetMapping("/info")
-    public String info() {
-        return "pages/host/hostInfo";
-    }
 
     @GetMapping("/product/create")
     public String productCreate() {
@@ -128,9 +123,30 @@ public class HostController {
 
     }
 
+
     // 호스트 로그아웃
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/member/logout";
+    }
+
+
+    // 호스트 정보 수정
+    @GetMapping("/info")
+    public String info(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
+
+        ResponseHostInfoDto hostInfoDto = hostService.getHostInfo(mem_id);
+
+        if (hostInfoDto != null) {
+            model.addAttribute("hostInfoDto", hostInfoDto);
+            log.debug("hostInfoDto Value={}", hostInfoDto);
+
+            return "pages/host/hostInfo";
+
+        } else {
+            model.addAttribute("errorMessage", "호스트 정보를 불러오지 못했습니다. 다시 시도해주세요.");
+            return "pages/host/hostHome";
+        }
+
     }
 }
