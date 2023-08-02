@@ -89,5 +89,12 @@
   </div>
 </div>
 <!-- 본문 끝-->
+
+<script th:inline="javascript">
+  if ([[${errorMessage}]] !== null) {
+    alert([[${errorMessage}]]);
+  }
+</script>
+
 </body>
 

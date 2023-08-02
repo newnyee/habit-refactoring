@@ -28,6 +28,7 @@ CREATE TABLE PRODUCT (
 CREATE TABLE OPTION (
     OPT_NO      int          NOT NULL  auto_increment  primary key,
     PROD_NO     int          NOT NULL,
+    HOST_ID     varchar(25)  NOT NULL,
     OPT_TYPE    char(1)      NOT NULL,
     OPT_NAME    varchar(50)  NOT NULL,
     OPT_QTY     int          NOT NULL  DEFAULT 0,

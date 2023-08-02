@@ -548,8 +548,10 @@
 </footer>
 <!--footer 끝-->
 
-
-
-
+  <script th:inline="javascript">
+    if ([[${errorMessage}]] !== null) {
+      alert([[${errorMessage}]]);
+    }
+  </script>
 
 </body>

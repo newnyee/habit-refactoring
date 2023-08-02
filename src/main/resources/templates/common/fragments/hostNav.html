@@ -37,10 +37,11 @@
         </li>
       </ul>
       <div>
-        <a href="/host/info"><img src="${host_img.equals("defaulthostPro.png") ? '/img/' : '/storage/'}${sessionScope.host_img}" alt="" width="50px" height="50px" style="border-radius: 100%; margin: 0 10px;"></a>
-        <a href="/host/info" style="text-decoration-line: none;"><span name="" style="padding-right: 20px;">${sessionScope.host_name}</span></a>
+        <a th:if='${#strings.equals(session.get("s_hostImg"), "host_default_img.png")}' href="/host/info"><img th:src='${"/img/" + session.get("s_hostImg")}' alt="" width="50px" height="50px" style="border-radius: 100%; margin: 0 10px;"></a>
+        <a th:unless='${#strings.equals(session.get("s_hostImg"), "host_default_img.png")}' href="/host/info"><img th:src='${"/storage/" + session.get("s_hostImg")}' alt="" width="50px" height="50px" style="border-radius: 100%; margin: 0 10px;"></a>
+        <a href="/host/info" style="text-decoration-line: none;"><span th:text='${session.get("s_hostName")}' name="" style="padding-right: 20px;"></span></a>
         <a href="/"><input type="button" class="btn btn-outline-primary btn-sm" value="해빗 홈으로 이동"></a>
-        <a href="#"><input type="button" href="#" class="btn btn-secondary btn-sm" value="로그아웃"></a>
+        <a href="/host/logout"><input type="button" class="btn btn-secondary btn-sm" value="로그아웃"></a>
       </div>
     </div>
   </div>

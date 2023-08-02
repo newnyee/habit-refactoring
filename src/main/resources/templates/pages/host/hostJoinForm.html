@@ -31,15 +31,15 @@
     <div class="content">
       <p class="content-name">프로필 관리</p>
       <!-- 프로필 관리 form 시작 -->
-      <form action="host/newHost" method="post" onsubmit="return checkNewHost()" enctype="multipart/form-data">
+      <form action="/host/join" method="post" onsubmit="return checkNewHost()" enctype="multipart/form-data">
         <!-- 프로필 사진 -->
         <div class="content-flex">
           <div class="item-name">
             <p>프로필 사진</p>
           </div>
           <div class="item2">
-            <img src="/img/defaulthostPro.png" alt="" width="100px" height="100px" style="border-radius: 100%;" class="proImg"><br><br>
-            <input class="form-control" type="file" name="Img" id="Img" onchange="setProfile(this)">
+            <img src="/img/host_default_img.png" alt="" width="100px" height="100px" style="border-radius: 100%;" class="proImg"><br><br>
+            <input class="form-control" type="file" name="host_imgFile" id="Img" onchange="setProfile(this)">
             <div class="error_class hostImgError"></div>
             <p class="item2-info">용량 2MB 이하 jpg, png</p>
             <p class="item2-info">파일 미첨부 시 기본이미지로 설정됩니다.</p>
@@ -52,7 +52,7 @@
             <p>호스트 명</p>
           </div>
           <div class="item2">
-            <input type="text" class="form-control" placeholder="호스트 명을 입력해 주세요." name="hostName" id="hostName">
+            <input type="text" class="form-control" placeholder="호스트 명을 입력해 주세요." name="host_name" id="hostName">
             <div class="error_class hostNameError"></div>
             <p class="item2-info">해빗 회원에게 보여지는 닉네임 입니다.</p>
           </div>
@@ -64,8 +64,8 @@
             <p>이메일</p>
           </div>
           <div class="item2">
-            <input type="text" class="form-control" name="hostEmail1" id="hostEmail1" placeholder="이메일을 입력해주세요." style="width: 300px; display: inline-block;">@
-            <select name="hostEmail2" id="hostEmail2"  class="form-control" style="width: 200px; display: inline-block; ">
+            <input type="text" class="form-control" name="host_email" id="hostEmail1" placeholder="이메일을 입력해주세요." style="width: 300px; display: inline-block;">@
+            <select name="host_email2" id="hostEmail2"  class="form-control" style="width: 200px; display: inline-block; ">
               <option value="0">=====선택=====</option>
               <option value="gmail.com">gmail.com</option>
               <option value="naver.com">naver.com</option>
@@ -85,9 +85,9 @@
             <p>공개 연락처(선택)</p>
           </div>
           <div class="item2">
-            <input type="number" class="form-control" id="hostPhone1" name="hostPhone1" style="width: 100px; display: inline-block;" oninput="checkLength()">-
-            <input type="number" class="form-control" id="hostPhone2" name="hostPhone2" style="width: 100px; display: inline-block;" oninput="checkLength()">-
-            <input type="number" class="form-control" id="hostPhone3" name="hostPhone3" style="width: 100px; display: inline-block;" oninput="checkLength()">
+            <input type="number" class="form-control" id="hostPhone1" name="host_phone" style="width: 100px; display: inline-block;" oninput="checkLength()">-
+            <input type="number" class="form-control" id="hostPhone2" name="host_phone2" style="width: 100px; display: inline-block;" oninput="checkLength()">-
+            <input type="number" class="form-control" id="hostPhone3" name="host_phone3" style="width: 100px; display: inline-block;" oninput="checkLength()">
 
             <p class="item2-info">해빗 회원에게 노출되는 공개 연락처입니다.<br>
               미입력 시 해빗 가입에 사용된 연락처가 노출됩니다.</p>
@@ -132,5 +132,12 @@
   </div>
 </footer>
 <!--footer 종료-->
+
+<script th:inline="javascript">
+  if ([[${errorMessage}]] !== null) {
+    alert([[${errorMessage}]]);
+  }
+</script>
+
 </body>
 </html>

@@ -19,6 +19,7 @@ CREATE TABLE ORDER_DETAILS (
     ORD_DTL_NO      int          NOT NULL  auto_increment  primary key,
     ORD_NO          varchar(20)  NOT NULL,
     MEM_ID          varchar(25)  NOT NULL,
+    HOST_ID         varchar(25)  NOT NULL,
     OPT_NO          int          NOT NULL,
     REFN_STATUS     char(4)      NOT NULL  DEFAULT 'RO',
     ORD_DTL_PRICE   int          NOT NULL  DEFAULT 0,

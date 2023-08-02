@@ -1,8 +1,7 @@
 package com.habit2.domain.member.controller;
 
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
-import com.habit2.domain.member.dto.RequestMemberLoginDto;
-import com.habit2.domain.member.model.Member;
+import com.habit2.domain.member.dto.MemberLoginDto;
 import com.habit2.domain.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -42,13 +40,14 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join (RequestMemberJoinDto memberJoinDto) throws IOException {
+    public String join (RequestMemberJoinDto memberJoinDto, Model model) throws IOException {
         int result = memberService.memberJoin(memberJoinDto);
 
         if (result == 1) {
             return "redirect:/member/login";
         } else {
-            return "redirect:/member/login"; // 리팩토링 필요
+            model.addAttribute("errorMessage", "회원가입에 실패했습니다.");
+            return "pages/member/memberJoinForm";
         }
     }
 
@@ -60,19 +59,18 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(RequestMemberLoginDto memberLoginDto, HttpSession session, Model model) {
+    public String login(MemberLoginDto memberLoginDto, HttpSession session, Model model) {
 
         // 회원 정보 조회
-        RequestMemberLoginDto loginDto = memberService.memberLogin(memberLoginDto);
+        MemberLoginDto loginDto = memberService.memberLogin(memberLoginDto);
 
         // 로그인 성공 여부 확인
         if(loginDto != null) {
-            String mem_id = loginDto.getMem_id();
-            String mem_name = loginDto.getMem_name();
 
             // 세션에 정보를 저장
-            session.setAttribute("s_id", mem_id); // 아이디
-            session.setAttribute("s_name", mem_name); // 닉네임
+            session.setAttribute("s_id", loginDto.getMem_id()); // 아이디
+            session.setAttribute("s_name", loginDto.getMem_name()); // 닉네임
+            session.setAttribute("s_class", loginDto.getMem_class()); // 회원 구분
 
             return "redirect:/";
         } else {
@@ -83,12 +81,13 @@ public class MemberController {
 
     // 로그아웃
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, Model model) {
 
         // 현재 세션을 무효화하여 모든 세션 정보를 삭제
         session.invalidate();
+        model.addAttribute("errorMessage", "로그아웃 되었습니다.");
 
-        // 로그인 페이지로 리다이렉트
-        return "redirect:login";
+        // 홈으로 이동
+        return "pages/intro";
     }
 }

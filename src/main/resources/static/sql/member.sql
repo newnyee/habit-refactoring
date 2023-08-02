@@ -20,19 +20,6 @@ insert into MEMBER (MEM_ID, MEM_PW, MEM_NAME, MEM_EMAIL, MEM_PHONE, MEM_BIRTH, M
 values ('user-2', '1234', '유저2', 'user2@itwill.com', '010-1234-1234', '19980101', 'W');
 
 
-CREATE TABLE HOST (
-    HOST_ID        varchar(25)   NOT NULL  primary key,
-    HOST_NAME      varchar(130)  NOT NULL,
-    HOST_PHONE     varchar(16)   NOT NULL,
-    HOST_IMG       text          NOT NULL  DEFAULT 'host_default_img.png',
-    HOST_EMAIL     varchar(100)  NOT NULL,
-    HOST_INTRO     text(1600)    NULL,
-    HOST_ACCOUNT   varchar(50)   NULL,
-    HOST_BANK      varchar(15)   NULL,
-    HOST_ACHOLDER  varchar(35)   NULL,
-    HOST_DATE      datetime      NOT NULL  DEFAULT now()
-);
-
 CREATE TABLE POINT (
     PT_NO       int          NOT NULL  auto_increment  primary key,
     MEM_ID      varchar(25)  NOT NULL,

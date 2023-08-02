@@ -6,8 +6,9 @@ import lombok.ToString;
 
 @ToString
 @Getter @Setter
-public class RequestMemberLoginDto {
+public class MemberLoginDto {
     private String mem_id;
     private String mem_pw;
     private String mem_name;
+    private String mem_class;
 }

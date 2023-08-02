@@ -7,14 +7,27 @@
     
     <!--  회원가입  -->
     <insert id="memberJoin" parameterType="com.habit2.domain.member.model.Member">
-        insert into habit2.member (mem_id,mem_pw,mem_name,mem_email,mem_phone,mem_birth,mem_gender,mem_img)
-        values (#{mem_id},#{mem_pw},#{mem_name},#{mem_email},#{mem_phone},#{mem_birth},#{mem_gender},#{mem_img})
+        INSERT INTO habit2.member (mem_id,mem_pw,mem_name,mem_email,mem_phone,mem_birth,mem_gender,mem_img)
+        VALUES (#{mem_id},#{mem_pw},#{mem_name},#{mem_email},#{mem_phone},#{mem_birth},#{mem_gender},#{mem_img})
     </insert>
 
     <!-- 로그인 -->
-    <select id="findMember" parameterType="com.habit2.domain.member.model.Member" resultType="com.habit2.domain.member.dto.RequestMemberLoginDto">
-        Select mem_id, mem_pw, mem_name
-        from habit2.member
-        where mem_id=#{mem_id} and mem_pw=#{mem_pw}
+    <select id="findMemberToLogin" parameterType="com.habit2.domain.member.model.Member" resultType="com.habit2.domain.member.dto.MemberLoginDto">
+        SELECT mem_id, mem_name, mem_class
+        FROM habit2.member
+        WHERE mem_id=#{mem_id} AND mem_pw=#{mem_pw}
     </select>
+
+    <!-- 회원 휴대폰 번호 조회 -->
+    <select id="findMemberPhoneNumber" parameterType="String" resultType="String">
+        SELECT mem_phone
+        FROM habit2.member
+        WHERE mem_id = #{mem_id}
+    </select>
+
+    <!--  회원 등급 호스트로 수정  -->
+    <update id="updateMemberClass" parameterType="String">
+        UPDATE habit2.member SET mem_class = 'H' WHERE mem_id = #{mem_id}
+    </update>
+
 </mapper>

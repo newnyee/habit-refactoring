@@ -1,8 +1,7 @@
 package com.habit2.domain.member.service;
 
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
-import com.habit2.domain.member.dto.RequestMemberLoginDto;
-import com.habit2.domain.member.model.Member;
+import com.habit2.domain.member.dto.MemberLoginDto;
 import com.habit2.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,8 +70,9 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.memberJoin(memberJoinDto);
     }
 
+    // 로그인
     @Override
-    public RequestMemberLoginDto memberLogin(RequestMemberLoginDto memberLoginDto) {
-        return memberRepository.findMember(memberLoginDto);
+    public MemberLoginDto memberLogin(MemberLoginDto memberLoginDto) {
+        return memberRepository.findMemberToLogin(memberLoginDto);
     }
 }

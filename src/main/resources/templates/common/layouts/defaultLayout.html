@@ -16,5 +16,11 @@
 
     <!--Footer 영역을 참조합니다.-->
     <footer th:replace="common/fragments/defaultFooter :: FooterFragment"></footer>
+
+    <script th:inline="javascript">
+      if ([[${errorMessage}]] !== null) {
+        alert([[${errorMessage}]]);
+      }
+    </script>
   </body>
 </html>

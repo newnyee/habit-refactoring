@@ -175,6 +175,10 @@
 
 <script>
 
+  if ([[${errorMessage}]] !== null) {
+    alert([[${errorMessage}]]);
+  }
+
   //은행 선택
   let bank="${hostInfo.host_bank}";
   if(bank!=""){

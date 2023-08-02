@@ -5,5 +5,15 @@
 
 <!-- product.xml -->
 <mapper namespace="host">
+    <insert id="hostJoin" parameterType="com.habit2.domain.host.model.Host">
+        insert into habit2.host(host_id,host_name,host_phone,host_email,host_img)
+        values(#{host_id},#{host_name},#{host_phone},#{host_email},#{host_img})
+    </insert>
+
+    <select id="findHostName" parameterType="String" resultType="com.habit2.domain.host.dto.HostLoginDto">
+        SELECT host_name, host_img
+        FROM habit2.host
+        WHERE host_id = #{mem_id}
+    </select>
 
 </mapper>
