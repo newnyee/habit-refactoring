@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService{
         MultipartFile memberImgFile = memberJoinDto.getMem_imgFile();
         if (memberImgFile != null && !memberImgFile.isEmpty()) {
             long nano = System.currentTimeMillis();
-            String now = new SimpleDateFormat("SSSssmmHHddMMYY").format(nano);
+            String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
             mem_img = now + memberImgFile.getOriginalFilename();
             File targetFile = new File(path, mem_img);
             InputStream filesStream = memberImgFile.getInputStream();
