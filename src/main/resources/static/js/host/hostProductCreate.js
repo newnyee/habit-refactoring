@@ -1,216 +1,268 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-    // 해빗 명 체크
-    contNameCheck = () => {
-        let cont_name = document.getElementById('cont_name')
-        let cont_name_small = document.getElementById('cont_name_small')
-        if(cont_name.value.length < 1) {
-            cont_name_small.removeAttribute('hidden')
-            cont_name.focus()
-            return
-        } else {
-            cont_name_small.setAttribute('hidden', true)
+// 해빗 명 체크
+const contNameCheck = () => {
+    let cont_name = $('#cont_name')
+    let cont_name_small = $('#cont_name_small')
+    if(cont_name.val().length < 1) {
+        cont_name_small.css('display', 'block')
+        cont_name.focus()
+        return
+    } else {
+        cont_name_small.css('display', 'none')
+    }
+}
+
+// 카테고리 체크
+const cateSelectCheck = () => {
+
+    if ($('#cate_large').val() !== '0') {
+        $('#cate_small').css('display', 'none')
+    }
+
+    if ($('#cate_middle').val() !== '0') {
+        $('#cate_small').css('display', 'none')
+    }
+}
+
+// 주소 체크
+// const addressCheck = () => {
+//     alert()
+//     if ($('#zipcode').val().length > 0) {
+//         $('#address_small').css('display', 'none')
+//     }
+// }
+
+
+// 판매 종료일 이벤트
+contEndateOptionCheck1 = (e) => {
+    let endate_option2 = document.getElementById('endate_option2')
+    endate_option2.setAttribute('disabled', true)
+}
+contEndateOptionCheck2 = (e) => {
+    let endate_option2 = document.getElementById('endate_option2')
+    endate_option2.removeAttribute('disabled')
+}
+
+//habit_create 유효성 검사
+habitCreateCheck = () => {
+
+    // 카테고리 : 대분류
+    let cate_large = $('#cate_large')
+    if(cate_large.val() === '0') {
+        $('#cate_small').css('display', 'block')
+        cate_large.focus()
+        return false
+    }
+
+    // 카테고리 : 중분류
+    let cate_middle = $('#cate_middle')
+    if(cate_middle.val() === '0') {
+        $('#cate_small').css('display', 'block')
+        cate_middle.focus()
+        return false
+    }
+
+    // 해빗명
+    let cont_name = $('#cont_name')
+    if(cont_name.val().length<1 || cont_name.val().length>50) {
+        $('#cont_name_small').css('display', 'block')
+        cont_name.focus()
+        return false
+    }
+
+    // 진행장소
+    let zipcode = $('#zipcode')
+    if (zipcode.val().length<1) {
+        $('#address_small').css('display', 'block')
+        zipcode.focus()
+        return false
+    }
+
+    // 판매 종료일 확인
+    let cont_endate_type = $('input:radio[name="cont_endate_type"]:checked')
+    if (cont_endate_type.attr('id') === 'cont_endate_option2') {
+        let endate_option2 = $('#endate_option2')
+        if (endate_option2.val().length < 1) {
+            alert("판매종료일을 설정해주세요.")
+            endate_option2.focus()
+            return false
         }
     }
 
-    // 판매 종료일 이벤트
-    contEndateOptionCheck1 = (e) => {
-        let endate_option2 = document.getElementById('endate_option2')
-        endate_option2.setAttribute('disabled', true)
-    }
-    contEndateOptionCheck2 = (e) => {
-        let endate_option2 = document.getElementById('endate_option2')
-        endate_option2.removeAttribute('disabled')
-    }
-
-    //habit_create 유효성 검사
-    habitCreateCheck = () => {
-
-        // 카테고리 : 대분류
-        let cate_large = $('#cate_large')
-        if(cate_large.val() === '0') {
-            alert('카테고리를 선택해주세요.')
-            cate_large.focus()
+    // 옵션 목록 입력
+    let pro = $('input[name="opt_type"]:checked');
+    if(pro.attr('id') === 'prod') { // 선택된 옵션이 날짜 조율형 일때
+        let prod_names = $('input[name="prod_name"]')
+        let count_prod_name = 0
+        for (let prod_name of prod_names) {
+            if(prod_name.value.length <1 ) {
+                count_prod_name++
+            }
+        }
+        if(count_prod_name>0) {
+            alert('옵션명을 입력해주세요')
             return false
         }
 
-        // 카테고리 : 중분류
-        let cate_middle = $('#cate_middle')
-        if(cate_middle.val() === '0') {
-            alert('카테고리를 선택해주세요.')
-            cate_middle.focus()
+        // 옵션 수량
+        let prod_qtys = $('input[name="prod_qty"]')
+        let count_prod_qty = 0
+        for (let prod_qty of prod_qtys) {
+            if(prod_qty.value.length <1 ) {
+                count_prod_qty++
+            }
+        }
+        if(count_prod_qty>0) {
+            alert('옵션의 수량을 입력해주세요')
             return false
         }
 
-        // 해빗명
-        // let cont_name = $('#cont_name')
-        let cont_name = document.getElementById('cont_name')
-        if(cont_name.value.length<1 || cont_name.value.length>50) {
-            alert('해빗명은 필수입니다. 40자 이내로 입력해주세요.')
-            cont_name.focus()
+        // 옵션 가격
+        let prod_prices = $('input[name="prod_price"]')
+        let count_prod_price = 0
+        let value_prod_price = 0
+        for (let prod_price of prod_prices) {
+            if(prod_price.value.length <1 ) {
+                count_prod_price++
+            }
+            if (prod_price.value < 5000) {
+                value_prod_price++
+            }
+        }
+        if(count_prod_price > 0) {
+            alert('옵션의 금액을 입력해주세요')
+            return false
+        }
+        if (value_prod_price > 0) {
+            alert('옵션의 최소가격은 5000원 입니다')
             return false
         }
 
-        // 진행장소
-        let zipcode = $('#zipcode')
-        let address2 = $('#address2')
-        if (zipcode.val().length<1) {
-            alert('진행장소를 입력해주세요.')
-            address2.focus()
+    } else if(pro.attr('id') === 'one') { // 선택된 옵션이 날짜 지정형 일때
+        let one_dates = $('input[name="one_date"]')
+        let count_one_date = 0
+        for (let one_date of one_dates) {
+            if(one_date.value.length <1 ) {
+                count_one_date++
+            }
+        }
+        if(count_one_date>0) {
+            alert('옵션의 실행일자를 설정해주세요')
             return false
         }
 
-        // 판매 종료일 확인
-        let cont_endate_type = $('input:radio[name="cont_endate_type"]:checked')
-        if (cont_endate_type.attr('id') === 'cont_endate_option2') {
-            let endate_option2 = $('#endate_option2')
-            if (endate_option2.val().length < 1) {
-                alert("판매종료일을 설정해주세요.")
-                endate_option2.focus()
-                return false
+        // 옵션 수량
+        let one_maxqtys = $('input[name="one_date"]')
+        let count_one_maxqty = 0
+        for (let one_maxqty of one_maxqtys) {
+            if(one_maxqty.value.length <1 ) {
+                count_one_maxqty++
             }
         }
-
-        // 옵션 목록 입력
-        let pro = $('input[name="cont_type"]:checked');
-        if(pro.attr('id') === 'prod') { // 선택된 옵션이 날짜 조율형 일때
-            let prod_names = $('input[name="prod_name"]')
-            let count_prod_name = 0
-            for (let prod_name of prod_names) {
-                if(prod_name.value.length <1 ) {
-                    count_prod_name++
-                }
-            }
-            if(count_prod_name>0) {
-                alert('옵션명을 입력해주세요')
-                return false
-            }
-
-            // 옵션 수량
-            let prod_qtys = $('input[name="prod_qty"]')
-            let count_prod_qty = 0
-            for (let prod_qty of prod_qtys) {
-                if(prod_qty.value.length <1 ) {
-                    count_prod_qty++
-                }
-            }
-            if(count_prod_qty>0) {
-                alert('옵션의 수량을 입력해주세요')
-                return false
-            }
-
-            // 옵션 가격
-            let prod_prices = $('input[name="prod_price"]')
-            let count_prod_price = 0
-            let value_prod_price = 0
-            for (let prod_price of prod_prices) {
-                if(prod_price.value.length <1 ) {
-                    count_prod_price++
-                }
-                if (prod_price.value < 5000) {
-                    value_prod_price++
-                }
-            }
-            if(count_prod_price > 0) {
-                alert('옵션의 금액을 입력해주세요')
-                return false
-            }
-            if (value_prod_price > 0) {
-                alert('옵션의 최소가격은 5000원 입니다')
-                return false
-            }
-
-        } else if(pro.attr('id') === 'one') { // 선택된 옵션이 날짜 지정형 일때
-            let one_dates = $('input[name="one_date"]')
-            let count_one_date = 0
-            for (let one_date of one_dates) {
-                if(one_date.value.length <1 ) {
-                    count_one_date++
-                }
-            }
-            if(count_one_date>0) {
-                alert('옵션의 실행일자를 설정해주세요')
-                return false
-            }
-
-            // 옵션 수량
-            let one_maxqtys = $('input[name="one_date"]')
-            let count_one_maxqty = 0
-            for (let one_maxqty of one_maxqtys) {
-                if(one_maxqty.value.length <1 ) {
-                    count_one_maxqty++
-                }
-            }
-            if(count_one_maxqty>0) {
-                alert('옵션의 최대 모집인원을 설정해주세요')
-                return false
-            }
-
-            // 옵션 가격
-            let one_prices = $('input[name="one_price"]')
-            let count_one_price = 0
-            let value_one_price = 0
-            for (let one_price of one_prices) {
-
-                if(one_price.value.length <1 ) {
-                    count_one_price++
-                }
-                if (one_price.value < 5000) {
-                    value_one_price++
-                }
-            }
-            if(count_one_price>0) {
-                alert('옵션의 금액을 입력해주세요')
-                return false
-            }
-            if (value_one_price > 0) {
-                alert('옵션의 최소가격은 5000원 입니다')
-                alert('옵션의 최소가격은 5000원 입니다')
-                return false
-            }
-        }
-
-        // 대표 이미지
-        let cont_img = document.getElementById('cont_img').files
-        if(cont_img.length<1) {
-            alert('해빗 대표 이미지를 1개 이상 첨부해주세요.')
+        if(count_one_maxqty>0) {
+            alert('옵션의 최대 모집인원을 설정해주세요')
             return false
         }
 
-        // 해시태그
-        let hashtag2 = $('input:checkbox[name="cont_hashtag2"]:checked')
-        let hashtag4 = $('input:checkbox[name="cont_hashtag4"]:checked')
+        // 옵션 가격
+        let one_prices = $('input[name="one_price"]')
+        let count_one_price = 0
+        let value_one_price = 0
+        for (let one_price of one_prices) {
 
-        let summernote = $('#summernote')
-        if(summernote.val().length<10) {
-            alert('해빗 상세 설명을 10자 이상 입력해주세요.')
+            if(one_price.value.length <1 ) {
+                count_one_price++
+            }
+            if (one_price.value < 5000) {
+                value_one_price++
+            }
+        }
+        if(count_one_price>0) {
+            alert('옵션의 금액을 입력해주세요')
             return false
         }
-
-        if (hashtag2.length === 0 || hashtag4.length === 0) {
-            alert("해시태그를 문항당 한개 이상 체크해주세요.")
-            return false
-        }
-
-        if (confirm('해빗을 등록하시겠습니까?')) {
-            return true
-        } else {
+        if (value_one_price > 0) {
+            alert('옵션의 최소가격은 5000원 입니다')
+            alert('옵션의 최소가격은 5000원 입니다')
             return false
         }
     }
+
+    // 대표 이미지
+    let cont_img = document.getElementById('cont_img').files
+    if(cont_img.length<1) {
+        alert('해빗 대표 이미지를 1개 이상 첨부해주세요.')
+        return false
+    }
+
+    // 해시태그
+    let hashtag2 = $('input:checkbox[name="cont_hashtag2"]:checked')
+    let hashtag4 = $('input:checkbox[name="cont_hashtag4"]:checked')
+
+    let summernote = $('#summernote')
+    if(summernote.val().length<10) {
+        alert('해빗 상세 설명을 10자 이상 입력해주세요.')
+        return false
+    }
+
+    if (hashtag2.length === 0 || hashtag4.length === 0) {
+        alert("해시태그를 문항당 한개 이상 체크해주세요.")
+        return false
+    }
+
+    if (confirm('해빗을 등록하시겠습니까?')) {
+        return true
+    } else {
+        return false
+    }
+}
+
+
+// 대표 이미지 체크 (onChange)
+contImgCheck = (imgs) => {
+    let cont_img_small = $('#cont_img_small')
+    if(imgs.files.length>3) { // 파일을 4개 이상 첨부한 경우
+        for (let i = 0; i < 3; i++) {
+            preview_img_container.children('#preview_cont_img' + i).attr('src', '/img/No_image_available.png')
+        }
+        cont_img_small.removeAttr('hidden')
+        return
+    } else {
+        cont_img_small.attr('hidden', true)
+        preview_img_container.children().remove()
+        for (let i = 1; i <= 3; i++) {
+            if (imgs.files[i-1] !== undefined) {
+                let tmpPath = URL.createObjectURL(imgs.files[i-1])
+                str1 =
+                    "                <div>\n" +
+                    "                  <img src=' "+ tmpPath +" ' class='preview_img' id='preview_cont_img" + i + "' alt='이미지 없음' width='200px' height='200px' style='border-radius: 15px'>\n" +
+                    "                </div>"
+                preview_img_container.append(str1)
+            } else if (imgs.files[i-1] === undefined) {
+                str2 =
+                    "                <div>\n" +
+                    "                  <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img" + i + "' alt='이미지 없음' width='200px' height='200px'>\n" +
+                    "                </div>"
+                preview_img_container.append(str2)
+            }
+        }
+    }
+}
+
+
+$(document).ready(() => {
 
     // 대분류에 맞는 중분류 가져오기
     $('#cate_large').on('change', (e)=>{
         let cate_large = e.currentTarget.value
         $.ajax({
-            url: '/host/cate_middle.do',
+            url: '/host/product/category/' + cate_large,
             type: 'get',
-            data: {'cate_large': cate_large}, // json형태로 넘김
-            success: (List) => {
+            success: (list) => {
                 document.getElementById('cate_middle').replaceChildren()
                 $('#cate_middle').append("<option value='0'>2차 카테고리</option>")
-                for (let map of List) {
-                    $('#cate_middle').append("<option value='" + map.cate_middle + "'>" + map.cate_middle + "</option>")
+                for (let entity of list) {
+                    $('#cate_middle').append("<option value='" + entity.cate_middle + "'>" + entity.cate_middle + "</option>")
                 }
             }
         })
@@ -223,37 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
             "                  <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img" + i + "' alt='이미지 없음' width='200px' height='200px'>\n" +
             "                </div>"
         preview_img_container.append(str)
-    }
-
-    // 대표 이미지 체크 (onChange)
-    contImgCheck = (imgs) => {
-        let cont_img_small = $('#cont_img_small')
-        if(imgs.files.length>3) { // 파일을 4개 이상 첨부한 경우
-            for (let i = 0; i < 3; i++) {
-                preview_img_container.children('#preview_cont_img' + i).attr('src', '/img/No_image_available.png')
-            }
-            cont_img_small.removeAttr('hidden')
-            return
-        } else {
-            cont_img_small.attr('hidden', true)
-            preview_img_container.children().remove()
-            for (let i = 1; i <= 3; i++) {
-                if (imgs.files[i-1] !== undefined) {
-                    let tmpPath = URL.createObjectURL(imgs.files[i-1])
-                    str1 =
-                        "                <div>\n" +
-                        "                  <img src=' "+ tmpPath +" ' class='preview_img' id='preview_cont_img" + i + "' alt='이미지 없음' width='200px' height='200px' style='border-radius: 15px'>\n" +
-                        "                </div>"
-                    preview_img_container.append(str1)
-                } else if (imgs.files[i-1] === undefined) {
-                    str2 =
-                        "                <div>\n" +
-                        "                  <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img" + i + "' alt='이미지 없음' width='200px' height='200px'>\n" +
-                        "                </div>"
-                    preview_img_container.append(str2)
-                }
-            }
-        }
     }
 
     // 판매종료일 : 지정한 날짜까지 판매일 최대 날짜 현재일로 부터 한달 지정
@@ -387,10 +408,9 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
     })
-})
 
-/* 썸머 노트 config */
-$(document).ready(()=>{
+
+    /* 썸머 노트 config */
     $('#summernote').summernote({
         height: 300, // 에디터 높이
         minHeight: null, // 최소 높이
@@ -420,55 +440,56 @@ $(document).ready(()=>{
             }
         }
     })
-
-    //글자수 체크
-    //태그와 줄바꿈, 공백을 제거하고 텍스트 글자수만 가져옵니다.
-    function setContentsLength(str, index) {
-        var status = false;
-        var textCnt = 0; //총 글자수
-        var maxCnt = 60000; //최대 글자수
-        var editorText = f_SkipTags_html(str); //에디터에서 태그를 삭제하고 내용만 가져오기
-        editorText = editorText.replace(/\s/gi,""); //줄바꿈 제거
-        editorText = editorText.replace(/&nbsp;/gi, ""); //공백제거
-
-        textCnt = editorText.length;
-        if(maxCnt > 0) {
-            if(textCnt > maxCnt) {
-                status = true;
-            }
-        }
-
-        if(status) {
-            var msg = "글자수는 최대 "+maxCnt+"까지 등록이 가능합니다. / 현재 글자수 : "+textCnt+"자";
-            alert(msg)
-        }
-    }
-
-    function RealTimeImageUpdate(files, editor) {
-        var reg = /(.*?)\.(gif|jpg|png|jepg)$/; //허용할 확장자
-        var formData = new FormData();
-        var fileArr = Array.prototype.slice.call(files);
-        var filename = "";
-        var fileCnt = 0;
-        fileArr.forEach(function(f){
-            filename = f.name;
-            if(filename.match(reg)) {
-                formData.append('file[]', f);
-                fileCnt++;
-            }
-        });
-        formData.append('tempFolder', $('#tempFolder').val());
-    }
-
-    //에디터 내용 텍스트 제거
-    function f_SkipTags_html(input, allowed) {
-        // 허용할 태그는 다음과 같이 소문자로 넘겨받습니다. (<a><b><c>)
-        allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
-        var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
-            commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-        return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
-            return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
-        });
-    }
 })
+
+/* 썸머 노트 config */
+//글자수 체크
+//태그와 줄바꿈, 공백을 제거하고 텍스트 글자수만 가져옵니다.
+function setContentsLength(str, index) {
+    var status = false;
+    var textCnt = 0; //총 글자수
+    var maxCnt = 60000; //최대 글자수
+    var editorText = f_SkipTags_html(str); //에디터에서 태그를 삭제하고 내용만 가져오기
+    editorText = editorText.replace(/\s/gi,""); //줄바꿈 제거
+    editorText = editorText.replace(/&nbsp;/gi, ""); //공백제거
+
+    textCnt = editorText.length;
+    if(maxCnt > 0) {
+        if(textCnt > maxCnt) {
+            status = true;
+        }
+    }
+
+    if(status) {
+        var msg = "글자수는 최대 "+maxCnt+"까지 등록이 가능합니다. / 현재 글자수 : "+textCnt+"자";
+        alert(msg)
+    }
+}
+
+function RealTimeImageUpdate(files, editor) {
+    var reg = /(.*?)\.(gif|jpg|png|jepg)$/; //허용할 확장자
+    var formData = new FormData();
+    var fileArr = Array.prototype.slice.call(files);
+    var filename = "";
+    var fileCnt = 0;
+    fileArr.forEach(function(f){
+        filename = f.name;
+        if(filename.match(reg)) {
+            formData.append('file[]', f);
+            fileCnt++;
+        }
+    });
+    formData.append('tempFolder', $('#tempFolder').val());
+}
+
+//에디터 내용 텍스트 제거
+function f_SkipTags_html(input, allowed) {
+    // 허용할 태그는 다음과 같이 소문자로 넘겨받습니다. (<a><b><c>)
+    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+        commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+    });
+}
 

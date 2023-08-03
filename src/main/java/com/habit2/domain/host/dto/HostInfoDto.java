@@ -1,13 +1,15 @@
 package com.habit2.domain.host.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @ToString
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ResponseHostInfoDto {
+public class HostInfoDto {
 
+    private MultipartFile host_imgFile;
     private String host_id;
     private String host_img;
     private String host_name;

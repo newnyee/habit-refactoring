@@ -89,7 +89,7 @@ CREATE TABLE PRODUCT (
     PROD_NO        int          NOT NULL  auto_increment  primary key,
     CATE_NO        int          NOT NULL,
     HOST_ID        varchar(25)  NOT NULL,
-    PROD_NAME      varchar(50)  NOT NULL,
+    PROD_NAME      varchar(130)  NOT NULL,
     PROD_ZIP       varchar(30)  NOT NULL,
     PROD_ADDR1     varchar(30)  NULL,
     PROD_ADDR2     varchar(30)  NULL,

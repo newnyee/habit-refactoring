@@ -22,7 +22,7 @@
     <div class="Home_loginForm">
       <div th:if="${error!=null}" style="color: red; margin-bottom: 3px; text-align: center" th:text="${error}"></div>
       <form action="/member/login" method="post">
-        <input type="hidden" value="${redirectURL}" name="redirectURL">
+        <input type="hidden" th:value="${redirectURL}" name="redirectURL">
         <div class="Home_loginForm_input"><input type="text" name="mem_id" placeholder="아이디(이메일)"></div>
         <div class="Home_loginForm_input"><input type="password" name="mem_pw" placeholder="비밀번호"></div>
         <div style="text-align: center">

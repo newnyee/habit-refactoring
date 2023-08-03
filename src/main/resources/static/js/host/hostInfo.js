@@ -78,6 +78,10 @@ function checkLength(){
     let hostPhone2 = $('#hostPhone2')
     let hostPhone3 = $('#hostPhone3')
 
+    hostPhone1.val(hostPhone1.val().replace(/[^0-9]/g,""))
+    hostPhone2.val(hostPhone2.val().replace(/[^0-9]/g,""))
+    hostPhone3.val(hostPhone3.val().replace(/[^0-9]/g,""))
+
     if(hostPhone1.val().length!==3){
         hostPhone1.val(hostPhone1.val().slice(0,3))
     }

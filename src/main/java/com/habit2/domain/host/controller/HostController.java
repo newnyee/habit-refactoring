@@ -1,8 +1,9 @@
 package com.habit2.domain.host.controller;
 
+import com.habit2.domain.host.dto.HostInfoDto;
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.dto.RequestHostJoinDto;
-import com.habit2.domain.host.dto.ResponseHostInfoDto;
+import com.habit2.domain.host.model.CategoryEntity;
 import com.habit2.domain.host.service.HostService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -23,11 +25,6 @@ import java.io.IOException;
 public class HostController {
 
     private final HostService hostService;
-
-    @GetMapping("/product/create")
-    public String productCreate() {
-        return "pages/host/hostProductCreate";
-    }
 
     @GetMapping("/product/list")
     public String productList() {
@@ -70,10 +67,13 @@ public class HostController {
     public String joinForm(HttpSession session, Model model) {
 
         if (session.getAttribute("s_class") == null) { // 회원이 아닌경우
-            model.addAttribute("errorMessage", "로그인 후 이용가능합니다.");
+            model.addAttribute("redirectURL", "/host/join");
+            model.addAttribute("message", "로그인 후 이용가능합니다.");
             return "pages/member/login";
+
         } else if (session.getAttribute("s_class").equals("M")) { // 회원인 경우
             return "pages/host/hostJoinForm";
+
         } else { // 호스트인경우
             return "redirect:/host";
         }
@@ -93,7 +93,7 @@ public class HostController {
             session.setAttribute("s_class", "H");
             return "redirect:/host";
         } else {
-            model.addAttribute("errorMessage", "회원가입에 실패했습니다.");
+            model.addAttribute("message", "회원가입에 실패했습니다.");
             return "pages/host/hostJoinForm";
         }
     }
@@ -108,11 +108,12 @@ public class HostController {
             HttpSession session
     ) {
 
-        if(session.getAttribute("s_class") == null) {
-            model.addAttribute("errorMessage", "로그인 후 이용가능합니다.");
+        if (session.getAttribute("s_class") == null) {
+            model.addAttribute("message", "로그인 후 이용가능합니다.");
+            model.addAttribute("redirectURL", "/host");
             return "pages/member/login";
 
-        }else if (mem_class.equals("H")) { // 호스트일 때
+        } else if (mem_class.equals("H")) { // 호스트일 때
             HostLoginDto loginDto = hostService.hostLogin(mem_id);
 
             session.setAttribute("s_hostName", loginDto.getHost_name());
@@ -120,7 +121,7 @@ public class HostController {
             return "pages/host/hostHome";
 
         } else { // 일반회원일 때
-            model.addAttribute("errorMessage", "호스트 가입 후 이용 가능합니다.");
+            model.addAttribute("message", "호스트 가입 후 이용 가능합니다.");
             return "pages/host/hostJoinForm";
         }
 
@@ -136,9 +137,9 @@ public class HostController {
 
     // 호스트 정보 수정
     @GetMapping("/info")
-    public String info(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
+    public String updateInfo(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
 
-        ResponseHostInfoDto hostInfoDto = hostService.getHostInfo(mem_id);
+        HostInfoDto hostInfoDto = hostService.getHostInfo(mem_id);
 
         if (hostInfoDto != null) {
             model.addAttribute("hostInfoDto", hostInfoDto);
@@ -147,9 +148,63 @@ public class HostController {
             return "pages/host/hostInfo";
 
         } else {
-            model.addAttribute("errorMessage", "로그인 후 이용가능합니다.");
+            model.addAttribute("redirectURL", "/host/info");
+            model.addAttribute("message", "로그인 후 이용가능합니다.");
             return "pages/member/login";
         }
+    }
 
+    @PostMapping("/info")
+    public String updateInfoProcess(
+            @SessionAttribute(name = "s_id", required = false) String mem_id,
+            HostInfoDto hostInfoDto,
+            Model model
+    ) throws IOException {
+        log.debug("host update info={}", hostInfoDto);
+        hostInfoDto.setHost_id(mem_id);
+
+        int result = hostService.updateHostInfo(hostInfoDto);
+        log.debug("compare objects={}", result);
+
+        HostInfoDto newHostInfoDto = hostService.getHostInfo(mem_id);
+        model.addAttribute("hostInfoDto", newHostInfoDto);
+
+        if (result == 1) {
+            model.addAttribute("message", "호스트 정보가 수정되었습니다.");
+        } else {
+            model.addAttribute("message", "호스트 정보 수정에 실패하였습니다. 다시 시도해주세요.");
+        }
+
+        return "pages/host/hostInfo";
+    }
+
+
+    // 상품 등록
+    @GetMapping("/product/create")
+    public String createProduct(
+            HttpSession session,
+            Model model,
+            @SessionAttribute(name = "s_class", required = false) String mem_class
+    ) {
+
+        if (session.getAttribute("s_class") == null) {
+            model.addAttribute("redirectURL", "/host/product/create");
+            model.addAttribute("message", "로그인 후 이용가능합니다.");
+            return "pages/member/login";
+
+        } else if (mem_class.equals("H")) { // 호스트일 때
+            List<CategoryEntity> largeCategoryList = hostService.getLargeCategoryList();
+            model.addAttribute("largeCategoryList", largeCategoryList);
+            return "pages/host/hostProductCreate";
+
+        } else { // 일반회원일 때
+            model.addAttribute("message", "호스트 가입 후 이용 가능합니다.");
+            return "pages/host/hostJoinForm";
+        }
+    }
+
+    @PostMapping("/product/create")
+    public String createProductProcess() {
+        return "redirect:/host/product/list";
     }
 }

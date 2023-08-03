@@ -1,8 +1,11 @@
 package com.habit2.domain.host.repository;
 
+import com.habit2.domain.host.dto.HostInfoDto;
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.dto.RequestHostJoinDto;
-import com.habit2.domain.host.dto.ResponseHostInfoDto;
+import com.habit2.domain.host.model.CategoryEntity;
+
+import java.util.List;
 
 public interface HostRepository {
 
@@ -10,5 +13,11 @@ public interface HostRepository {
 
     HostLoginDto findHostName(String id);
 
-    ResponseHostInfoDto getHostInfo(String id);
+    HostInfoDto getHostInfo(String id);
+
+    int updateHostInfo(HostInfoDto hostInfoDto);
+
+    List<CategoryEntity> getLargeCategoryList();
+
+    List<CategoryEntity> getMiddleCategoryList(String cate_large);
 }

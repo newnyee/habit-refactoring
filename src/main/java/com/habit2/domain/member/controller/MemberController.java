@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -46,7 +47,7 @@ public class MemberController {
         if (result == 1) {
             return "redirect:/member/login";
         } else {
-            model.addAttribute("errorMessage", "회원가입에 실패했습니다.");
+            model.addAttribute("message", "회원가입에 실패했습니다.");
             return "pages/member/memberJoinForm";
         }
     }
@@ -59,7 +60,11 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(MemberLoginDto memberLoginDto, HttpSession session, Model model) {
+    public String login(
+            MemberLoginDto memberLoginDto,
+            HttpSession session,
+            Model model,
+            @RequestParam(value = "redirectURL",defaultValue = "/") String redirectURL) {
 
         // 회원 정보 조회
         MemberLoginDto loginDto = memberService.memberLogin(memberLoginDto);
@@ -72,8 +77,10 @@ public class MemberController {
             session.setAttribute("s_name", loginDto.getMem_name()); // 닉네임
             session.setAttribute("s_class", loginDto.getMem_class()); // 회원 구분
 
-            return "redirect:/";
+            return "redirect:" + redirectURL;
+
         } else {
+            model.addAttribute("redirectURL", redirectURL);
             model.addAttribute("error", "아이디 또는 비밀번호를 다시 입력해주세요");
             return "pages/member/login";
         }
@@ -85,7 +92,7 @@ public class MemberController {
 
         // 현재 세션을 무효화하여 모든 세션 정보를 삭제
         session.invalidate();
-        model.addAttribute("errorMessage", "로그아웃 되었습니다.");
+        model.addAttribute("message", "로그아웃 되었습니다.");
 
         // 홈으로 이동
         return "pages/intro";

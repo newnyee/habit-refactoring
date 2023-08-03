@@ -22,10 +22,11 @@
         WHERE host_id = #{host_id}
     </select>
 
-<!--    <select id="getHostInfo" parameterType="String" resultType="com.habit2.domain.host.dto.ResponseHostInfoDto">-->
-<!--        SELECT host_id, host_img, host_name, host_email, host_phone, host_intro, host_bank, host_acholder, host_account-->
-<!--        FROM habit2.host-->
-<!--        WHERE host_id = #{host_id}-->
-<!--    </select>-->
+    <update id="updateHostInfo" parameterType="com.habit2.domain.host.model.HostEntity">
+        UPDATE habit2.host
+        SET host_img = #{host_img}, host_name = #{host_name}, host_email = #{host_email}, host_phone = #{host_phone},
+            host_intro = #{host_intro}, host_bank = #{host_bank}, host_acholder = #{host_acholder}, host_account = #{host_account}
+        WHERE host_id = #{host_id}
+    </update>
 
 </mapper>

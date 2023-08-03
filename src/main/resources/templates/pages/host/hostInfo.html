@@ -15,7 +15,7 @@
   <p class="page-name">프로필/정산정보 관리</p>
 
   <!-- main 시작 -->
-  <form method="post" enctype="multipart/form-data" action="" onsubmit="return profileCheck()">
+  <form method="post" enctype="multipart/form-data" action="/host/info" onsubmit="return profileCheck()">
     <div class="content-wrap">
       <!-- 프로필 관리 -->
       <div class="content">
@@ -60,7 +60,7 @@
             <p>이메일</p>
           </div>
           <div class="item2">
-            <input type="text" class="form-control" name="host_email1" id="host_email" th:value="${hostInfoDto.getHost_email()}" placeholder="이메일을 입력해주세요." style="width: 250px; display: inline-block;" onchange="hostEmailCheck()">@
+            <input type="text" class="form-control" name="host_email" id="host_email" th:value="${hostInfoDto.getHost_email()}" placeholder="이메일을 입력해주세요." style="width: 250px; display: inline-block;" onchange="hostEmailCheck()">@
             <select name="host_email2" id="hostEmail2" class="form-control" style="width: 200px; display: inline-block; " onchange="hostEmailDomainCheck()">
               <option value="0">=====선택=====</option>
               <option value="gmail.com">gmail.com</option>
@@ -82,9 +82,9 @@
             <p>공개 연락처 (선택)</p>
           </div>
           <div class="item2">
-            <input type="number" name="host_phone" class="form-control" id="hostPhone1" th:value="${hostInfoDto.getHost_phone()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
-            <input type="number" name="host_phone2"  class="form-control" id="hostPhone2" th:value="${hostInfoDto.getHost_phone2()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
-            <input type="number" name="host_phone3"  class="form-control" id="hostPhone3" th:value="${hostInfoDto.getHost_phone3()}" style="width: 100px; display: inline-block;" oninput="checkLength()">
+            <input type="text" name="host_phone" class="form-control" id="hostPhone1" th:value="${hostInfoDto.getHost_phone()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
+            <input type="text" name="host_phone2"  class="form-control" id="hostPhone2" th:value="${hostInfoDto.getHost_phone2()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
+            <input type="text" name="host_phone3"  class="form-control" id="hostPhone3" th:value="${hostInfoDto.getHost_phone3()}" style="width: 100px; display: inline-block;" oninput="checkLength()">
             <small class="error_small" id="host_phone_small">올바른 전화번호 형식이 아닙니다.</small>
             <p class="item2-info">해빗 회원에게 노출되는 공개 연락처입니다.<br>미 입력시 회원가입에 사용된 연락처가 노출됩니다.</p>
           </div>
@@ -147,7 +147,7 @@
                 <small class="error_small" id="host_acholder_small" >예금주를 입력해주세요</small>
               </div>
               <div>
-                <input type="number" name="host_account" id="host_account" class="form-control" placeholder="계좌 번호를 입력해주세요. ('-'제외)" style="width:350px; margin: 0 15px;" th:value="${hostInfoDto.getHost_account()}" oninput="checkAccount()">
+                <input type="text" name="host_account" id="host_account" class="form-control" placeholder="계좌 번호를 입력해주세요. ('-'제외)" style="width:350px; margin: 0 15px;" th:value="${hostInfoDto.getHost_account()}" oninput="checkAccount()">
                 <small class="error_small" id="host_account_small" style="margin: 0 15px">계좌번호를 입력해주세요.</small>
               </div>
             </div>

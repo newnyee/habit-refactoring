@@ -1,14 +1,17 @@
 package com.habit2.domain.host.repository;
 
+import com.habit2.domain.host.dto.HostInfoDto;
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.dto.RequestHostJoinDto;
-import com.habit2.domain.host.dto.ResponseHostInfoDto;
 import com.habit2.domain.host.mapper.HostMapper;
+import com.habit2.domain.host.model.CategoryEntity;
 import com.habit2.domain.host.model.HostEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -39,11 +42,11 @@ public class HostRepositoryImpl implements HostRepository {
 
     // 호스트 정보 가져오기
     @Override
-    public ResponseHostInfoDto getHostInfo(String host_id) {
+    public HostInfoDto getHostInfo(String host_id) {
 
         HostEntity hostEntity = sqlSession.selectOne("host.getHostInfo", host_id);
 
-        ResponseHostInfoDto hostInfoDto;
+        HostInfoDto hostInfoDto;
 
         if (hostEntity != null) {
             hostInfoDto = HostMapper.MAPPER.toDto(hostEntity);
@@ -52,6 +55,25 @@ public class HostRepositoryImpl implements HostRepository {
         }
 
         return hostInfoDto;
+    }
+
+    // 호스트 정보 수정
+    @Override
+    public int updateHostInfo(HostInfoDto hostInfoDto) {
+
+        HostEntity hostEntity = HostMapper.MAPPER.toEntity(hostInfoDto);
+        return sqlSession.update("host.updateHostInfo", hostEntity);
+    }
+
+    // 대분류 얻기
+    @Override
+    public List<CategoryEntity> getLargeCategoryList() {
+        return sqlSession.selectList("category.getLargeCategoryList");
+    }
+
+    @Override
+    public List<CategoryEntity> getMiddleCategoryList(String cate_large) {
+        return sqlSession.selectList("category.getMiddleCategoryList", cate_large);
     }
 
 }
