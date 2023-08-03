@@ -34,9 +34,9 @@
             <div>
               <input class="form-control" type="file" name="Img" id="host_img" accept="image/*" onchange="setProfile(this)" >
             </div>
-            <div><p class="item2-info">파일 용량 2MB 이하 jpg, png 로 첨부해주세요.</p></div>
+            <div><p class="item2-info" id="hostImgError">파일 용량 2MB 이하 jpg, png 로 첨부해주세요.</p></div>
             <div>
-              <div class="error_class hostImgError" style="display: none; color: red;"></div>
+              <div class="error_small hostImgError"></div>
             </div>
           </div>
         </div>
@@ -47,10 +47,10 @@
             <p>호스트 명</p>
           </div>
           <div class="item2">
-            <input type="text" class="form-control" id="host_name" name="host_name" placeholder="호스트 명을 입력해 주세요." th:value="${hostInfoDto.host_name}" maxlength=25 onchange="hostNameCheck()">
-            <small style="display: none;color:red;" id="host_name_small">호스트 명을 입력해주세요.</small>
-            <p class="item2-info">실제 해빗을 운영하시는 분의 연락처로 인증해 주세요.<br>
-              해당 연락처로 참가자 명단, 프립 진행 관련 중요 알림이 발송됩니다.</p>
+            <input type="text" class="form-control" id="host_name" name="host_name" placeholder="호스트 명을 입력해 주세요." th:value="${hostInfoDto.host_name}" maxlength="40" onchange="hostNameCheck()">
+            <small class="error_small" id="host_name_small1">2~40자 이내로 입력해주세요.</small>
+            <small class="error_small" id="host_name_small2">한글과 영문 대,소문자를 사용하세요. (특수기호, 공백 사용 불가)</small>
+            <p class="item2-info">해빗 회원에게 보여지는 닉네임 입니다.</p>
           </div>
         </div>
         <hr>
@@ -61,14 +61,16 @@
           </div>
           <div class="item2">
             <input type="text" class="form-control" name="host_email1" id="host_email" th:value="${hostInfoDto.getHost_email()}" placeholder="이메일을 입력해주세요." style="width: 250px; display: inline-block;" onchange="hostEmailCheck()">@
-            <select name="host_email2" id="hostEmail2" value="gmail.com"  class="form-control" style="width: 200px; display: inline-block; ">
+            <select name="host_email2" id="hostEmail2" class="form-control" style="width: 200px; display: inline-block; " onchange="hostEmailDomainCheck()">
               <option value="0">=====선택=====</option>
               <option value="gmail.com">gmail.com</option>
               <option value="naver.com">naver.com</option>
               <option value="daum.com">daum.com</option>
               <option value="hanmail.com">hanmail.com</option>
             </select>
-            <small style="display: none;color:red;" id="host_email_small">올바른 이메일 형식이 아닙니다.</small>
+            <small class="error_small" id="host_email_small1">영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.</small>
+            <small class="error_small" id="host_email_small2">5~20자 이내로 입력해주세요.</small>
+            <small class="error_small" id="host_email_small3">도메인을 선택해주세요.</small>
             <p class="item2-info">실제 사용하시는 이메일 주소를 입력해 주세요.<br>
               해당 메일로 공지사항 및 상품 수정 요청 등 중요 알림이 발생됩니다.</p>
           </div>
@@ -77,27 +79,27 @@
         <!-- 공개 연락처 -->
         <div class="content-flex">
           <div class="item-name">
-            <p>공개 연락처</p>
+            <p>공개 연락처 (선택)</p>
           </div>
           <div class="item2">
             <input type="number" name="host_phone" class="form-control" id="hostPhone1" th:value="${hostInfoDto.getHost_phone()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
             <input type="number" name="host_phone2"  class="form-control" id="hostPhone2" th:value="${hostInfoDto.getHost_phone2()}" style="width: 100px; display: inline-block;" oninput="checkLength()"> -
             <input type="number" name="host_phone3"  class="form-control" id="hostPhone3" th:value="${hostInfoDto.getHost_phone3()}" style="width: 100px; display: inline-block;" oninput="checkLength()">
-            <small style="display: none;color:red;" id="host_phone_error">올바른 전화번호 형식이 아닙니다.</small>
-            <p class="item2-info">해빗 회원에게 노출되는 공개 연락처입니다.</p>
+            <small class="error_small" id="host_phone_small">올바른 전화번호 형식이 아닙니다.</small>
+            <p class="item2-info">해빗 회원에게 노출되는 공개 연락처입니다.<br>미 입력시 회원가입에 사용된 연락처가 노출됩니다.</p>
           </div>
         </div>
         <hr>
         <!-- 소개 -->
         <div class="content-flex">
           <div class="item-name">
-            <p>소개</p>
+            <p>소개 (선택)</p>
           </div>
           <div class="item2">
-            <textarea th:text="${hostInfoDto.getHost_intro()}" class="form-control " name="host_intro" id="host_intro" cols="30" rows="5" placeholder="간단한 소개와 약력을 입력해 주세요." style="resize: none;" onkeyup="countText(this)"></textarea>
-            <p class="item2-info1" style="display: inline-block;">0</p>
-            <p style="display: inline-block;">/200</p><!--글자수-->
-            <small style="display: none;color:red;" id="host_intro_error">소개글을 5자 이상 입력해주세요.</small>
+            <textarea th:text="${hostInfoDto.getHost_intro()}" class="form-control " name="host_intro" id="host_intro" cols="30" rows="5" placeholder="간단한 소개와 약력을 입력해 주세요." style="resize: none;" onkeyup="countText()"></textarea>
+            <p class="item2-info" id="infoTextLength" style="display: inline-block;">0</p>
+            <p class="item2-info" style="display: inline-block;">/500</p>
+            <small class="error_small" id="host_intro_small">글자수는 500자 이내로 입력 가능합니다.</small>
             <p>소개 예시보기</p>
             <p class="item2-info">해빗 회원에게 호스트님을 소개해 주세요.<br>
               호스트님만의 개성을 담거나, 신뢰감을 줄 수 있는 전문적인 사항들을 입력하시면 좋습니다.</p><br>
@@ -111,7 +113,7 @@
 
       <!-- 정산 관리 -->
       <div class="content">
-        <p class="content-name">정산 관리</p>
+        <p class="content-name">정산 정보 관리</p>
         <!-- 수수료 -->
         <div class="content-flex">
           <div class="item-name">
@@ -130,23 +132,23 @@
           <div class="item2">
             <div>
               <div>
-                <select name="host_bank" id="hostBank" class="form-select" style="width: 150px;">
+                <select name="host_bank" id="hostBank" class="form-select" style="width: 150px;" onchange="checkBank()">
                   <option value="0">==선택==</option>
                   <option value="해빗은행">해빗은행</option>
                   <option value="신한은행">신한은행</option>
                   <option value="카카오뱅크">카카오뱅크</option>
                 </select>
               </div>
-              <small style="display: none;color:red;"  id="host_bank_error" >은행을 선택해주세요</small>
+              <small class="error_small" id="host_bank_small">은행을 선택해주세요.</small>
             </div>
             <div style="display: flex; flex-wrap: wrap;">
               <div>
-                <input type="text" name="host_acholder" class="form-control" placeholder="예금주" style="width:150px;" th:value="${hostInfoDto.getHost_acholder()}" id="host_acholder">
-                <small style="display: none;color:red;"  id="host_acholder_error" >예금주를 입력해주세요</small>
+                <input type="text" name="host_acholder" id="host_acholder" class="form-control" placeholder="예금주" style="width:150px;" th:value="${hostInfoDto.getHost_acholder()}" onchange="checkAcholder()">
+                <small class="error_small" id="host_acholder_small" >예금주를 입력해주세요</small>
               </div>
               <div>
-                <input type="text" name="host_account" class="form-control" placeholder="계좌 번호를 입력해주세요." style="width:350px; margin: 0 15px;" th:value="${hostInfoDto.getHost_account()}" oninput="checkAccount()" id="hostAccount">
-                <small style="display: none;color:red;"  id="host_account_error">계좌번호를 입력해주세요.</small>
+                <input type="number" name="host_account" id="host_account" class="form-control" placeholder="계좌 번호를 입력해주세요." style="width:350px; margin: 0 15px;" th:value="${hostInfoDto.getHost_account()}" oninput="checkAccount()">
+                <small class="error_small" id="host_account_small">계좌번호를 입력해주세요.</small>
               </div>
             </div>
             <div>

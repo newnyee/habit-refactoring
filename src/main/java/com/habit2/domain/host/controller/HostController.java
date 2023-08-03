@@ -108,8 +108,11 @@ public class HostController {
             HttpSession session
     ) {
 
-        if (mem_class.equals("H")) { // 호스트일 때
+        if(session.getAttribute("s_class") == null) {
+            model.addAttribute("errorMessage", "로그인 후 이용가능합니다.");
+            return "pages/member/login";
 
+        }else if (mem_class.equals("H")) { // 호스트일 때
             HostLoginDto loginDto = hostService.hostLogin(mem_id);
 
             session.setAttribute("s_hostName", loginDto.getHost_name());
@@ -144,8 +147,8 @@ public class HostController {
             return "pages/host/hostInfo";
 
         } else {
-            model.addAttribute("errorMessage", "호스트 정보를 불러오지 못했습니다. 다시 시도해주세요.");
-            return "pages/host/hostHome";
+            model.addAttribute("errorMessage", "로그인 후 이용가능합니다.");
+            return "pages/member/login";
         }
 
     }

@@ -4,11 +4,6 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-.error_class{
-
-    color: red;
-    font-weight: 600;
-}
 .hostNameError{
     display: none;
 }
