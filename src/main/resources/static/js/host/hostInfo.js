@@ -133,6 +133,9 @@ const checkAcholder = () => {
 
 // 계좌번호 유효성
 const checkAccount = () => {
+
+    $("#host_account").val($("#host_account").val().replace(/[^0-9]/g,""))
+
     if ($('#host_account').length > 10) {
         $('#host_account_small').css("display", "none")
     }
