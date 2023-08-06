@@ -20,7 +20,7 @@
   <p class="page-name">해빗 등록</p>
 
   <!-- main 시작 -->
-  <form method="post" action="/host/product" onsubmit="return habitCreateCheck()" enctype="multipart/form-data">
+  <form method="post" action="/host/product/create" onsubmit="return habitCreateCheck()" enctype="multipart/form-data">
     <!-- 기본 정보 -->
     <div class="content-wrap">
       <div class="content">
@@ -102,7 +102,7 @@
         </div><hr>
         <div class="content-flex">
           <div class="item-name">
-            <p>해시태그</p>
+            <p>해빗 간단 정보</p>
           </div>
           <div>
             <p class="item2-info" style="color: gray;">해빗 이용자들에게 해시태그로 보여질 정보입니다.<br> 해당되는 정보를 선택해 주세요.</p>
@@ -235,8 +235,11 @@
                 <label class="form-check-label" for="cont_endate_option2">지정한 날짜까지 판매</label>
               </div>
               <div>
-                <input class="form-control" type="date" name="prod_end" id="endate_option2" disabled>
+                <input class="form-control" type="date" name="prod_end" id="endate_option2" disabled onchange="endDateCheck()">
               </div>
+            </div>
+            <div>
+              <small class="error_small" id="end_small">종료일을 지정해주세요.</small>
             </div>
             <div>
               <p class="item2-info" style="color: gray;">해빗 최소 판매 기간은 일주일 입니다.</p>
@@ -249,14 +252,14 @@
           </div>
           <div style="display: flex; align-items: center; justify-content: space-around;">
             <div class="select" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center">
-              <input type="radio" id="prod" name="opt_type" value="prod" checked>
+              <input type="radio" id="prod" name="opt_type" value="P" checked>
               <label for="prod" style="height: 100%; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center">
                 <p>날짜 조율형</p>
                 <p>호스트님이 회원 연락처로 별도 연락하여 일정을 조율하는 형태의 해빗입니다. (에스테틱, 네일 등에 적합)</p>
               </label>
             </div>
             <div class="select" style="flex: 1;">
-              <input type="radio" id="one" name="opt_type" value="one">
+              <input type="radio" id="one" name="opt_type" value="O">
               <label for="one" style="height: 100%; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center">
                 <p>날짜 지정형</p>
                 <p>호스트님께서 날짜와 옵션을 등록하여 가능한 날에만 예약을 받을 수 있는 해빗입니다. 일정 관리 및 고객 관리를 더 간편하게 하실 수 있습니다. (에스테틱, 네일 제외한 대부분의 해빗)</p>
@@ -287,18 +290,18 @@
                   <td></td>
                   <td>
                     <div>
-                      <input type="text" name="prod_name" class="form-control">
+                      <input type="text" name="p_name" class="form-control">
                     </div>
                   </td>
                   <td>
                     <div>
-                      <input type="number" min="0" name="prod_qty" class="form-control">
+                      <input type="number" min="0" name="p_qty" class="form-control">
                     </div>
                   </td>
                   <td>
                     <div class="input-group mb-2">
                       <span class="input-group-text">판매가</span>
-                      <input type="number" class="form-control" min="0" name="prod_price" aria-label="Amount (to the nearest dollar)">
+                      <input type="number" class="form-control" min="0" name="p_price" aria-label="Amount (to the nearest dollar)">
                       <span class="input-group-text">원</span>
                     </div>
                   </td>
@@ -339,18 +342,18 @@
                   <td></td>
                   <td>
                     <div>
-                      <input class="form-control" name="one_date" type="datetime-local">
+                      <input class="form-control" name="o_name" type="datetime-local">
                     </div>
                   </td>
                   <td>
                     <div>
-                      <input type="number" name="one_maxqty" min="0" class="form-control">
+                      <input type="number" name="o_qty" min="0" class="form-control">
                     </div>
                   </td>
                   <td>
                     <div class="input-group mb-2">
                       <span class="input-group-text">판매가</span>
-                      <input type="number" class="form-control" name="one_price" min="0" aria-label="Amount (to the nearest dollar)">
+                      <input type="number" class="form-control" name="o_price" min="0" aria-label="Amount (to the nearest dollar)">
                       <span class="input-group-text">원</span>
                     </div>
                   </td>
@@ -384,9 +387,18 @@
           </div>
           <div>
             <div class="item" id="preview_img_container" style="display: flex; align-items: center; justify-content: center;">
+              <div>
+                <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img1' alt='이미지 없음' width='200px' height='200px'>
+              </div>
+              <div>
+                <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img2' alt='이미지 없음' width='200px' height='200px'>
+              </div>
+              <div>
+                <img src='/img/No_image_available.png' class='preview_img' id='preview_cont_img3' alt='이미지 없음' width='200px' height='200px'>
+              </div>
             </div>
             <div class="input-img">
-              <small hidden id="cont_img_small">이미지 파일은 3개까지 첨부 가능합니다.</small><br>
+              <small class="error_small" id="cont_img_small">이미지 파일을 1~3장 이내로 첨부해주세요.</small><br>
               <label for="cont_img" class="btn btn-outline-primary">이미지 추가하기</label>
               <input type="file" id="cont_img" name="prod_imgFile" class="form-control" accept="image/*" onchange="contImgCheck(this)" multiple>
             </div>
@@ -498,7 +510,7 @@
         element_wrap.style.display = 'none';
 
         // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-        document.body.scrollTop = currentScroll;
+        // document.body.scrollTop = currentScroll;
       },
       // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
       onresize : function(size) {

@@ -1,5 +1,6 @@
 package com.habit2.domain.member.repository;
 
+import com.habit2.domain.host.dto.RequestProductInfoDto;
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
 import com.habit2.domain.member.dto.MemberLoginDto;
 
@@ -15,4 +16,5 @@ public interface MemberRepository {
     String findMemberPhoneNumber(String id);
 
     int updateMemberClass(String id);
+
 }

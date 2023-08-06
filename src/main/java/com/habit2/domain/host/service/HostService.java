@@ -1,8 +1,6 @@
 package com.habit2.domain.host.service;
 
-import com.habit2.domain.host.dto.HostInfoDto;
-import com.habit2.domain.host.dto.HostLoginDto;
-import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.*;
 import com.habit2.domain.host.model.CategoryEntity;
 
 import java.io.IOException;
@@ -21,4 +19,10 @@ public interface HostService {
     List<CategoryEntity> getLargeCategoryList();
 
     List<CategoryEntity> getMiddleCategoryList(String cate_large);
+
+    int createProduct(RequestProductInfoDto requestProductInfoDto) throws IOException;
+
+    List<ResponseProductListDTO> productList(RequestProductListDto requestProductListDto);
+
+    void productListCount(RequestProductListDto productListDTO);
 }

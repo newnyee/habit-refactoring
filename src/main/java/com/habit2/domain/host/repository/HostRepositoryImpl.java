@@ -1,11 +1,10 @@
 package com.habit2.domain.host.repository;
 
-import com.habit2.domain.host.dto.HostInfoDto;
-import com.habit2.domain.host.dto.HostLoginDto;
-import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.*;
 import com.habit2.domain.host.mapper.HostMapper;
 import com.habit2.domain.host.model.CategoryEntity;
 import com.habit2.domain.host.model.HostEntity;
+import com.habit2.domain.product.model.OptionEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -74,6 +73,42 @@ public class HostRepositoryImpl implements HostRepository {
     @Override
     public List<CategoryEntity> getMiddleCategoryList(String cate_large) {
         return sqlSession.selectList("category.getMiddleCategoryList", cate_large);
+    }
+
+
+    // 카테고리 코드 찾기
+    @Override
+    public int findCategoryNumber(String cate_middle) {
+        return sqlSession.selectOne("category.findCategoryNumber", cate_middle);
+    }
+
+    @Override
+    public int insertProductAndReturnCreatedProductNumber(RequestProductInfoDto productInfoDto) {
+        return sqlSession.insert("product.insertProductAndReturnCreatedProductNumber", productInfoDto);
+    }
+
+
+    // 옵션 insert
+    @Override
+    public int insertOptions(List<OptionEntity> optionEntities) {
+        return sqlSession.insert("option.insertOptions", optionEntities);
+    }
+
+
+    // product list
+    @Override
+    public List<ResponseProductListDTO> getProductList(RequestProductListDto productListDto) {
+        return sqlSession.selectList("product.getProductList", productListDto);
+    }
+
+    @Override
+    public int getProductListTotalRecord(RequestProductListDto productListDTO) {
+        return sqlSession.selectOne("product.getProductListTotalRecord", productListDTO);
+    }
+
+    @Override
+    public int productPurchaseCheck(int prod_no) {
+        return sqlSession.selectOne("orderDetails.productPurchaseCheck", prod_no);
     }
 
 }

@@ -1,11 +1,10 @@
 package com.habit2.domain.host.service;
 
-import com.habit2.domain.host.dto.HostLoginDto;
-import com.habit2.domain.host.dto.RequestHostJoinDto;
-import com.habit2.domain.host.dto.HostInfoDto;
+import com.habit2.domain.host.dto.*;
 import com.habit2.domain.host.model.CategoryEntity;
 import com.habit2.domain.host.repository.HostRepository;
 import com.habit2.domain.member.repository.MemberRepository;
+import com.habit2.domain.product.model.OptionEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -16,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,16 +30,10 @@ public class HostServiceImpl implements HostService {
     public int hostJoin(RequestHostJoinDto hostJoinDto) throws IOException {
 
         // 이미지
-        String path = "src/main/webapp/storage/";
         String host_img = "host_default_img.png";
         MultipartFile hostImgFile = hostJoinDto.getHost_imgFile();
         if (hostImgFile != null) {
-            long nano = System.currentTimeMillis();
-            String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
-            host_img = now + hostImgFile.getOriginalFilename();
-            File targetFile = new File(path, host_img);
-            InputStream filesStream = hostImgFile.getInputStream();
-            FileUtils.copyInputStreamToFile(filesStream, targetFile);
+            host_img = imageRenameAndImageSave(hostImgFile);
         }
         hostJoinDto.setHost_img(host_img);
 
@@ -111,16 +104,10 @@ public class HostServiceImpl implements HostService {
     public int updateHostInfo(HostInfoDto hostInfoDto) throws IOException {
 
         // 이미지
-        String path = "src/main/webapp/storage/";
         String host_img = "host_default_img.png";
         MultipartFile hostImgFile = hostInfoDto.getHost_imgFile();
         if (hostImgFile != null) {
-            long nano = System.currentTimeMillis();
-            String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
-            host_img = now + hostImgFile.getOriginalFilename();
-            File targetFile = new File(path, host_img);
-            InputStream filesStream = hostImgFile.getInputStream();
-            FileUtils.copyInputStreamToFile(filesStream, targetFile);
+            host_img = imageRenameAndImageSave(hostImgFile);
         }
         hostInfoDto.setHost_img(host_img);
 
@@ -180,5 +167,120 @@ public class HostServiceImpl implements HostService {
     @Override
     public List<CategoryEntity> getMiddleCategoryList(String cate_large) {
         return hostRepository.getMiddleCategoryList(cate_large);
+    }
+
+    // 상품 등록
+    @Override
+    public int createProduct(RequestProductInfoDto productInfoDto) throws IOException {
+
+        // 카테고리 코드 가져오기
+        productInfoDto.setCate_no(hostRepository.findCategoryNumber(productInfoDto.getCate_middle()));
+
+        // 이미지
+        String prod_imgs = "";
+        List<MultipartFile> prodImgFiles = productInfoDto.getProd_imgFile();
+        for (int i = 0; i < prodImgFiles.size(); i++) {
+
+            String prod_img = imageRenameAndImageSave(prodImgFiles.get(i));
+
+            if (prodImgFiles.size() == i + 1) {
+                prod_imgs += prod_img;
+            } else {
+                prod_imgs += prod_img + "|";
+            }
+        }
+        productInfoDto.setProd_img(prod_imgs);
+
+        log.debug("manufactured product Info dto={}", productInfoDto);
+
+        // 상품 insert
+        int productInsertResult = hostRepository.insertProductAndReturnCreatedProductNumber(productInfoDto);
+        log.debug("product insert result ={}", productInsertResult==1 ? "success" : "failed");
+        if (productInsertResult != 1) {
+            return 0;
+        }
+
+        // 옵션 insert
+        List<OptionEntity> optionEntities = new ArrayList<>();
+
+        // 옵션 타입이 인원권, 회차권일 경우
+        if (productInfoDto.getOpt_type().equals("P")) {
+            for (int i = 0; i < productInfoDto.getP_name().size(); i++) {
+                OptionEntity option = new OptionEntity();
+                option.setProd_no(productInfoDto.getProd_no());
+                option.setOpt_type(productInfoDto.getOpt_type());
+                option.setHost_id(productInfoDto.getHost_id());
+                option.setOpt_name(productInfoDto.getP_name().get(i));
+                option.setOpt_qty(productInfoDto.getP_qty().get(i));
+                option.setOpt_price(productInfoDto.getP_price().get(i));
+                optionEntities.add(option);
+            }
+
+        } else if(productInfoDto.getOpt_type().equals("O")){ // 옵션 타입이 원데이 클래스일 경우
+            for (int i = 0; i < productInfoDto.getO_name().size(); i++) {
+                OptionEntity option = new OptionEntity();
+                option.setProd_no(productInfoDto.getProd_no());
+                option.setOpt_type(productInfoDto.getOpt_type());
+                option.setHost_id(productInfoDto.getHost_id());
+                option.setOpt_name(productInfoDto.getO_name().get(i));
+                option.setOpt_qty(productInfoDto.getO_qty().get(i));
+                option.setOpt_price(productInfoDto.getO_price().get(i));
+                optionEntities.add(option);
+            }
+        }
+
+        return hostRepository.insertOptions(optionEntities);
+    }
+
+
+    // 상품 리스트 가져오기
+    @Override
+    public List<ResponseProductListDTO> productList(RequestProductListDto productListDto) {
+
+        List<ResponseProductListDTO> list = hostRepository.getProductList(productListDto);
+
+        if (list.size() > 0) {
+            for (ResponseProductListDTO dto : list) {
+                // 대표 이미지 가져오기
+                String prod_img = dto.getProd_img().split("\\|")[0];
+                dto.setProd_img(prod_img);
+
+                // 구매기록 확인하기
+                int result = hostRepository.productPurchaseCheck(dto.getProd_no());
+
+                // 구매기록이 있다면 삭제 불가를 위해 status에 기록 남기기
+                if (result > 0) {
+                    dto.setProductPurchaseStatus("N");
+                }
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public void productListCount(RequestProductListDto productListDTO) {
+        int totalRecord = hostRepository.getProductListTotalRecord(productListDTO);
+        productListDTO.getVo().setTotalRecord(totalRecord);
+    }
+
+
+    // 메소드 =====================================================================================================
+
+    /**
+     * 이미지 리네임, 이미지 저장 메소드
+     * @param imgFile
+     * @return String newImgName
+     * @throws IOException
+     */
+    private String imageRenameAndImageSave(MultipartFile imgFile) throws IOException {
+        long nano = System.currentTimeMillis();
+        String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
+
+        String prod_img = now + imgFile.getOriginalFilename();
+        File targetFile = new File("src/main/resources/static/storage", prod_img);
+        InputStream filesStream = imgFile.getInputStream();
+        FileUtils.copyInputStreamToFile(filesStream, targetFile);
+        return prod_img;
     }
 }

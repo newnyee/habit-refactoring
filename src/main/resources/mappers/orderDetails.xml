@@ -4,6 +4,10 @@
 
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="orderDetials">
-
+<mapper namespace="orderDetails">
+    <select id="productPurchaseCheck" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM habit2.order_details a JOIN habit2.option b ON a.OPT_NO = b.OPT_NO
+        WHERE PROD_NO = #{prod_no}
+    </select>
 </mapper>

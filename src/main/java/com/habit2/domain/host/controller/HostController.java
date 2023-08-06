@@ -1,8 +1,6 @@
 package com.habit2.domain.host.controller;
 
-import com.habit2.domain.host.dto.HostInfoDto;
-import com.habit2.domain.host.dto.HostLoginDto;
-import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.*;
 import com.habit2.domain.host.model.CategoryEntity;
 import com.habit2.domain.host.service.HostService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -25,11 +25,6 @@ import java.util.List;
 public class HostController {
 
     private final HostService hostService;
-
-    @GetMapping("/product/list")
-    public String productList() {
-        return "pages/host/hostProductList";
-    }
 
     @GetMapping("/sales")
     public String sales() {
@@ -204,7 +199,43 @@ public class HostController {
     }
 
     @PostMapping("/product/create")
-    public String createProductProcess() {
-        return "redirect:/host/product/list";
+    public String createProductProcess(
+            @SessionAttribute(name = "s_id", required = false) String mem_id,
+            RequestProductInfoDto productInfoDto,
+            Model model
+    ) throws IOException {
+
+        productInfoDto.setHost_id(mem_id);
+        log.debug("product ino dto={}", productInfoDto);
+        int result = hostService.createProduct(productInfoDto);
+
+        if (result > 0) {
+            return "redirect:/host/product/list";
+
+        } else {
+            model.addAttribute("message", "해빗 등록에 실패하였습니다.");
+            return "pages/host/hostProductCreate";
+        }
+    }
+
+
+    // 상품 리스트
+    @GetMapping("/product/list")
+    public String productList(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
+
+        RequestProductListDto productListDto = new RequestProductListDto();
+        productListDto.setHost_id(mem_id);
+        List<ResponseProductListDTO> list = hostService.productList(productListDto);
+        hostService.productListCount(productListDto);
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = now.format(formatter);
+
+        model.addAttribute("now", formattedNow);
+        model.addAttribute("vo", productListDto.getVo());
+        model.addAttribute("list", list);
+
+        return "pages/host/hostProductList";
     }
 }

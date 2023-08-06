@@ -4,7 +4,7 @@
   <div class="global1">
     <div class="global_topbar">
       <div class="global_topbar_menu1" >
-        <a href="/host/join"><div class="global_topbar_menu1_menu">호스트지원</div></a>
+        <a href="/host/join"><div class="global_topbar_menu1_menu" th:text='${#strings.equals(session.get("s_class"), "H") ? "호스트센터" : "호스트지원"}'></div></a>
       </div>
       <div th:if='${session.get("s_id")==null}' class="global_topbar_menu2">
         <a href="/member/join" class="global_topbar_menu2_menu"><div class="global_topbar_menu2_menu">회원가입</div></a>

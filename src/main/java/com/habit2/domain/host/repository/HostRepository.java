@@ -1,9 +1,8 @@
 package com.habit2.domain.host.repository;
 
-import com.habit2.domain.host.dto.HostInfoDto;
-import com.habit2.domain.host.dto.HostLoginDto;
-import com.habit2.domain.host.dto.RequestHostJoinDto;
+import com.habit2.domain.host.dto.*;
 import com.habit2.domain.host.model.CategoryEntity;
+import com.habit2.domain.product.model.OptionEntity;
 
 import java.util.List;
 
@@ -20,4 +19,16 @@ public interface HostRepository {
     List<CategoryEntity> getLargeCategoryList();
 
     List<CategoryEntity> getMiddleCategoryList(String cate_large);
+
+    int findCategoryNumber(String cate_middle);
+
+    int insertProductAndReturnCreatedProductNumber(RequestProductInfoDto requestProductInfoDto);
+
+    int insertOptions(List<OptionEntity> optionEntities);
+
+    List<ResponseProductListDTO> getProductList(RequestProductListDto requestProductListDto);
+
+    int getProductListTotalRecord(RequestProductListDto productListDTO);
+
+    int productPurchaseCheck(int no);
 }

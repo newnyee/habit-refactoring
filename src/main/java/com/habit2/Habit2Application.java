@@ -12,7 +12,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-public class Habit2Application {
+
+ class Habit2Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Habit2Application.class, args);

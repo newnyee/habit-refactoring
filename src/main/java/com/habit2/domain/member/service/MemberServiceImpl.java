@@ -25,17 +25,16 @@ public class MemberServiceImpl implements MemberService{
     public int memberJoin(RequestMemberJoinDto memberJoinDto) throws IOException {
 
         // 이미지
-        String path = "src/main/webapp/storage/";
         String mem_img = "member_default_img.png";
         MultipartFile memberImgFile = memberJoinDto.getMem_imgFile();
-        if (memberImgFile != null && !memberImgFile.isEmpty()) {
-            long nano = System.currentTimeMillis();
-            String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
-            mem_img = now + memberImgFile.getOriginalFilename();
-            File targetFile = new File(path, mem_img);
-            InputStream filesStream = memberImgFile.getInputStream();
-            FileUtils.copyInputStreamToFile(filesStream, targetFile);
-        }
+
+        long nano = System.currentTimeMillis();
+        String now = new SimpleDateFormat("SSSssmmHHddMMyy").format(nano);
+        mem_img = now + memberImgFile.getOriginalFilename();
+
+        File targetFile = new File("src/main/resources/static/storage", mem_img);
+        InputStream filesStream = memberImgFile.getInputStream();
+        FileUtils.copyInputStreamToFile(filesStream, targetFile);
         memberJoinDto.setMem_img(mem_img);
 
         // 생년월일

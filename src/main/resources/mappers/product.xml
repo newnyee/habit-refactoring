@@ -6,5 +6,65 @@
 <!-- product.xml -->
 
 <mapper namespace="product">
+    <!-- product 테이블 insert -->
+    <insert id="insertProductAndReturnCreatedProductNumber" useGeneratedKeys="true" keyProperty="prod_no" parameterType="com.habit2.domain.host.dto.RequestProductInfoDto" >
+        INSERT INTO habit2.product (cate_no, host_id, prod_name, prod_zip, prod_addr1, prod_addr2, prod_extraddr,
+                                    prod_end, prod_img, prod_content, prod_info1, prod_info2, prod_info3, prod_info4)
+        values (#{cate_no}, #{host_id}, #{prod_name}, #{prod_zip}, #{prod_addr1}, #{prod_addr2}, #{prod_extraddr},
+                #{prod_end}, #{prod_img}, #{prod_content}, #{prod_info1}, #{prod_info2}, #{prod_info3}, #{prod_info4})
+        <selectKey keyProperty="prod_no" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 
+    <!--  product list 정보 가져오기  -->
+    <select id="getProductList" parameterType="com.habit2.domain.host.dto.RequestProductListDto" resultType="com.habit2.domain.host.dto.ResponseProductListDTO">
+        SELECT HOST_ID, PROD_NO, PROD_IMG, PROD_NAME, PROD_START, PROD_END, CATE_LARGE, CATE_MIDDLE
+        FROM habit2.product a JOIN habit2.category b
+        ON a.CATE_NO = b.CATE_NO
+        WHERE HOST_ID = #{host_id}
+        <if test="filter != null">
+            <if test='!prod_name.equals("")'>
+                AND PROD_NAME LIKE concat('%',#{prod_name},'%')
+            </if>
+            <if test='!(searchStartDate.equals("") and searchStartDate.equals(""))'>
+                AND ${searchDateType} BETWEEN #{searchStartDate} AND #{searchEndDate}
+            </if>
+            <if test="prod_status != null">
+                AND <foreach collection="prod_status" item="status" separator="or" open="(" close=")">PROD_STATUS = #{status}</foreach>
+            </if>
+            <choose>
+                <when test='!(searchStartDate.equals("") and searchStartDate.equals(""))'>
+                    ORDER BY ${searchDateType} DESC
+                </when>
+                <otherwise>
+                    ORDER BY PROD_START DESC
+                </otherwise>
+            </choose>
+        </if>
+        <if test="filter == null">
+            ORDER BY PROD_START DESC
+        </if>
+        LIMIT ${vo.appendRow} OFFSET ${vo.offset}
+    </select>
+
+    <!-- 리스트 총 레코드 수 -->
+    <select id="getProductListTotalRecord" parameterType="com.habit2.domain.host.dto.RequestProductListDto" resultType="int">
+        SELECT COUNT(*)
+        FROM habit2.product a JOIN habit2.category b
+        ON a.CATE_NO = b.CATE_NO
+        WHERE HOST_ID = #{host_id}
+        <if test="filter != null">
+            <if test='!prod_name.equals("")'>
+                AND PROD_NAME LIKE concat('%',#{prod_name},'%')
+            </if>
+            <if test='!(searchStartDate.equals("") and searchStartDate.equals(""))'>
+                AND ${searchDateType} BETWEEN #{searchStartDate} AND #{searchEndDate}
+            </if>
+            <if test="prod_status != null">
+                AND <foreach collection="prod_status" item="status" separator="or" open="(" close=")">PROD_STATUS = #{status}</foreach>
+            </if>
+        </if>
+    </select>
+    
 </mapper>

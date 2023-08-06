@@ -1,8 +1,8 @@
 $(document).ready(()=> {
     // 필터
     // 조회기간 제한
-    $('input:radio[name=btnradio]').on('change', () => {
-        let value = $('input:radio[name=btnradio]:checked').val()
+    $('input:radio[name=btnRadio]').on('change', () => {
+        let value = $('input:radio[name=btnRadio]:checked').val()
         if (value === 'today') {
             let nowDate = new Date().toISOString().split('T')[0]
             $('#date-calendar-start').val(nowDate)
@@ -35,45 +35,16 @@ $(document).ready(()=> {
     })
 
 
-    const createTable = (map) => {
-        const list = map.list
-        const vo = map.vo
-        const now = map.now
-        let tableBody = $('#tableBody')
-        let pagination = $('#pagination')
-        pagination.children().remove()
-
-        for (let item of list) {
-            str1 = "<div class='class-box'>\n" +
-                "                    <div style='display: flex; align-items: center; justify-content: center'>\n" +
-                "                      <button style='border: 0; background-color: transparent' class='contentDetail' name='detail" + item.cont_no + "'><img src='/storage/" + item.cont_img + "' alt=''></button>\n" +
-                "                    </div>\n" +
-                "                    <div style='margin: 10px 0'>\n" +
-                "                      <button style='border: 0; background-color: transparent' class='contentDetail' name='detail" + item.cont_no + "'><span style='font-size: large'><strong>" + item.cont_name + "</strong></span></button>\n" +
-                "                    </div>\n" +
-                "                    <div style='color: #494846'>\n" +
-                "                      <strong>[판매시작] </strong>" + item.cont_stdate.substring(0, 16) + "<br>\n" +
-                "                      <strong>[판매종료] </strong>" + item.cont_endate.substring(0, 16) + "<br>\n" +
-                "                      <strong>[카테고리] </strong>" + item.cate_large + " &gt; " + item.cate_middle + "\n" +
-                "                    </div>\n" +
-                "                    <div>\n" +
-                "                      <input type='button' class='btn btn-sm btn-outline-primary content-update' id='update" + item.cont_no + "' value='해빗수정'" + (item.cont_endate < now ? 'disabled' : '') + ">\n" +
-                "                      <input type='button' class='btn btn-sm btn-primary content-delete' id='delete" + item.cont_no + "' value='해빗삭제'" + (item.contentPurchaseStatus === 'N' ? 'disabled' : '') + ">\n" +
-                "                    </div>\n" +
-                "                  </div>"
-            tableBody.append(str1)
-        }
-    }
-
-    let click = 0
+    let click = 0;
     // 더보기 click
     $('#pagination').on('click', '#seeMoreButton', ()=>{
         click++
         $.ajax({
-            url: '/host/content/seemore.do',
+            url: '/host/product/list/seemore',
             type: 'post',
+            contentType: 'application/json',
             dataType: 'json',
-            data: {'click': click},
+            data: JSON.stringify({'click': click}),
             success: (map) => {
                 createTable(map)
                 str2 = "<button class='btn btn-lg btn-outline-primary' id='seeMoreButton' type='button'" + (map.vo.currentEndRowNum < map.vo.totalRecord ? '' : 'hidden') + ">더보기</button>"
@@ -84,14 +55,13 @@ $(document).ready(()=> {
 
 
     // 필터 조회
-    $('#search-content').on('click', ()=>{
-
+    $('#search-product').on('click', ()=>{
         click = 0
 
         let searchResult = $('#searchResult')
         let tableBody = $('#tableBody')
         let pagination = $('#pagination')
-        let cont_name = $('#search-cont_name').val()
+        let prod_name = $('#search_prod_name').val()
         let searchDateType = $('#searchDateType').val()
         let searchStartDate =  $('#date-calendar-start').val()
         let searchEndDate = $('#date-calendar-end').val()
@@ -102,33 +72,34 @@ $(document).ready(()=> {
         }
 
         if (searchEndDate !== '') {
-            let endDate =  new Date($('#date-calendar-end').val());
-            let getEndDate = endDate.getDate();
-            let setEndDate = endDate.setDate(getEndDate+1);
-            searchEndDate = new Date(setEndDate).toISOString().split('T')[0];
+            let endDate =  new Date($('#date-calendar-end').val())
+            let getEndDate = endDate.getDate()
+            let setEndDate = endDate.setDate(getEndDate+1)
+            searchEndDate = new Date(setEndDate).toISOString().split('T')[0]
         }
 
-        let cont_status = []
-        let list = $('input[name=cont_status]:checked')
+        let prod_status = []
+        let list = $('input[name=prod_status]:checked')
         for (let status of list) {
-            cont_status.push(status.value)
+            prod_status.push(status.value)
         }
 
         let requestData = {
             'click': click,
             'filter': 'filter',
-            'cont_name': cont_name,
+            'prod_name': prod_name,
             'searchDateType': searchDateType,
             'searchStartDate': searchStartDate,
             'searchEndDate': searchEndDate,
-            'cont_status': cont_status
+            'prod_status': prod_status
         }
 
         $.ajax({
-            url: '/host/content/list.do',
+            url: '/host/product/list',
             type: 'post',
+            contentType: 'application/json',
             dataType: 'json',
-            data: requestData,
+            data: JSON.stringify(requestData),
             success: (map) => {
                 searchResult.children().remove()
                 tableBody.children().remove()
@@ -151,7 +122,7 @@ $(document).ready(()=> {
     $('#pagination').on('click', '#seeMoreButton-filter', ()=>{
         click++
 
-        let cont_name = $('#search-cont_name').val()
+        let prod_name = $('#search_prod_name').val()
         let searchDateType = $('#searchDateType').val()
         let searchStartDate =  $('#date-calendar-start').val()
         let searchEndDate = $('#date-calendar-end').val()
@@ -163,27 +134,28 @@ $(document).ready(()=> {
             searchEndDate = new Date(setEndDate).toISOString().split('T')[0];
         }
 
-        let cont_status = []
-        let list = $('input[name=cont_status]:checked')
+        let prod_status = []
+        let list = $('input[name=prod_status]:checked')
         for (let status of list) {
-            cont_status.push(status.value)
+            prod_status.push(status.value)
         }
 
         let requestData = {
             'click': click,
             'filter': 'filter',
-            'cont_name': cont_name,
+            'prod_name': prod_name,
             'searchDateType': searchDateType,
             'searchStartDate': searchStartDate,
             'searchEndDate': searchEndDate,
-            'cont_status': cont_status
+            'prod_status': prod_status
         }
 
         $.ajax({
-            url: '/host/content/seemore.do',
+            url: '/host/product/list/seemore',
             type: 'post',
+            contentType: 'application/json',
             dataType: 'json',
-            data: requestData,
+            data: JSON.stringify(requestData),
             success: (map) => {
                 createTable(map)
                 str2 = "<button class='btn btn-lg btn-outline-primary' id='seeMoreButton-filter' type='button'" + (map.vo.currentEndRowNum < map.vo.totalRecord ? '' : 'hidden') + ">더보기</button>"
@@ -205,3 +177,33 @@ $(document).ready(()=> {
     })
 
 })
+
+const createTable = (map) => {
+    const list = map.list
+    const vo = map.vo
+    const now = map.now
+    let tableBody = $('#tableBody')
+    let pagination = $('#pagination')
+    pagination.children().remove()
+
+    for (let item of list) {
+        str1 = "<div class='class-box'>\n" +
+            "                    <div style='display: flex; align-items: center; justify-content: center'>\n" +
+            "                      <button style='border: 0; background-color: transparent' class='contentDetail' name='detail" + item.prod_no + "'><img src='/storage/" + item.prod_img + "' alt=''></button>\n" +
+            "                    </div>\n" +
+            "                    <div style='margin: 10px 0'>\n" +
+            "                      <button style='border: 0; background-color: transparent' class='contentDetail' name='detail" + item.prod_no + "'><span style='font-size: large'><strong>" + item.prod_name + "</strong></span></button>\n" +
+            "                    </div>\n" +
+            "                    <div style='color: #494846'>\n" +
+            "                      <strong>[판매시작] </strong>" + item.prod_start.substring(0, 16) + "<br>\n" +
+            "                      <strong>[판매종료] </strong>" + item.prod_end.substring(0, 16) + "<br>\n" +
+            "                      <strong>[카테고리] </strong>" + item.cate_large + " &gt; " + item.cate_middle + "\n" +
+            "                    </div>\n" +
+            "                    <div>\n" +
+            "                      <input type='button' class='btn btn-sm btn-outline-primary content-update' id='update" + item.prod_no + "' value='해빗수정'" + (item.prod_end < now ? 'disabled' : '') + ">\n" +
+            "                      <input type='button' class='btn btn-sm btn-primary content-delete' id='delete" + item.prod_no + "' value='해빗삭제'" + (item.contentPurchaseStatus === 'N' ? 'disabled' : '') + ">\n" +
+            "                    </div>\n" +
+            "                  </div>"
+        tableBody.append(str1)
+    }
+}

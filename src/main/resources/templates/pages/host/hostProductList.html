@@ -27,7 +27,7 @@
           </div>
           <div class="item">
             <div>
-              <input type="text" class="form-control" name="cont_name" id="search-cont_name" placeholder="검색어를 입력해주세요" style="width: 400px">
+              <input type="text" class="form-control" name="prod_name" id="search_prod_name" placeholder="검색어를 입력해주세요" style="width: 400px">
             </div>
           </div>
         </div>
@@ -40,8 +40,8 @@
             <div class="item">
               <div>
                 <select name="searchDateType" id="searchDateType" style="width: 150px;" class="form-select">
-                  <option value="cont_stdate">판매시작일</option>
-                  <option value="cont_endate">판매종료일</option>
+                  <option value="prod_start">판매시작일</option>
+                  <option value="prod_end">판매종료일</option>
                 </select>
               </div>
               <div style="display: flex;">
@@ -50,17 +50,17 @@
             </div>
             <div>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="today" value="today" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRadio" id="today" value="today" autocomplete="off">
                 <label class="btn btn-sm btn-outline-primary" for="today">오늘</label>
-                <input type="radio" class="btn-check" name="btnradio" id="1Month" value="1Month" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRadio" id="1Month" value="1Month" autocomplete="off">
                 <label class="btn btn-sm btn-outline-primary" for="1Month">1개월</label>
-                <input type="radio" class="btn-check" name="btnradio" id="6Month" value="6Month" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRadio" id="6Month" value="6Month" autocomplete="off">
                 <label class="btn btn-sm btn-outline-primary" for="6Month">6개월</label>
-                <input type="radio" class="btn-check" name="btnradio" id="1year" value="1year" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRadio" id="1year" value="1year" autocomplete="off">
                 <label class="btn btn-sm btn-outline-primary" for="1year">&nbsp;1년&nbsp;</label>
-                <input type="radio" class="btn-check" name="btnradio" id="5year" value="5year" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnRadio" id="5year" value="5year" autocomplete="off">
                 <label class="btn btn-sm btn-outline-primary" for="5year">&nbsp;5년&nbsp;</label>
-                <input type="radio" class="btn-check" name="btnradio" id="all" value="all" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnRadio" id="all" value="all" autocomplete="off" checked>
                 <label class="btn btn-sm btn-outline-primary" for="all">전체</label>
               </div>
             </div>
@@ -76,13 +76,13 @@
           </div>
           <div class="item2" style="display: flex">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="cont_status" value="Y" id="cont_status1" checked>
+              <input class="form-check-input" type="checkbox" name="prod_status" value="Y" id="cont_status1" checked>
               <label class="form-check-label" for="cont_status1">
                 판매중
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="cont_status" value="N" id="cont_status2" checked>
+              <input class="form-check-input" type="checkbox" name="prod_status" value="N" id="cont_status2" checked>
               <label class="form-check-label" for="cont_status2">
                 판매종료
               </label>
@@ -90,7 +90,7 @@
           </div>
         </div>
         <div style="float: right;">
-          <input type="button" id="search-content" class="btn btn-primary" value="검색">
+          <input type="button" id="search-product" class="btn btn-primary" value="검색">
           <input type="reset" class="btn btn-outline-primary" value="초기화">
         </div>
       </form>
@@ -100,52 +100,44 @@
     <!-- 조회 결과 -->
     <div class="content">
       <div id="searchResult">
-        <p class='content-name'>검색 결과 : ${vo.totalRecord} 건</p>
-      </div>
-      <div>
-        <p class="item2-info" style="color: gray;">- 구매 이력이 있는 해빗은 삭제할 수 없습니다.</p>
+        <p class='content-name' th:text='${"검색 결과 : " + vo.totalRecord + "건"}'></p>
       </div>
       <div>
         <p class="item2-info" style="color: gray;">- 판매 종료된 해빗은 수정할 수 없습니다.</p>
       </div>
+      <div>
+        <p class="item2-info" style="color: gray;">- 구매 이력이 있는 해빗은 삭제할 수 없습니다.</p>
+      </div>
       <div class="class-flex" id="tableBody" style="align-items: center; justify-content: center">
-        <c:choose>
-          <c:when test="${list.size()>0}">
-            <c:forEach var="item" items="${list}">
-              <div class='class-box'>
-                <div style='display: flex; align-items: center; justify-content: center'>
-                  <button style="border: 0; background-color: transparent;" name="detail${item.cont_no}" class="contentDetail"><img src='/storage/${item.cont_img}' alt='이미지 없음'></button>
-                </div>
-                <div style='margin: 10px 0'>
-                  <button style="border: 0; background-color: transparent;" name="detail${item.cont_no}" class="contentDetail"><span style='font-size: large'><strong>${item.cont_name}</strong></span></button>
-                </div>
-                <div style='color: #494846'>
-                  <strong>[판매시작] </strong>${item.cont_stdate.substring(0, 16)}<br>
-                  <strong>[판매종료] </strong>${item.cont_endate.substring(0, 16)}<br>
-                  <strong>[카테고리] </strong>${item.cate_large} &gt; ${item.cate_middle}
-                </div>
-                <div>
-                  <input type="button" class="btn btn-sm btn-outline-primary content-update" id="update${item.cont_no}" value="해빗수정" ${item.cont_endate < now ? "disabled" : ""}>
-                  <input type="button" class="btn btn-sm btn-primary content-delete" id="delete${item.cont_no}" value="해빗삭제" ${item.contentPurchaseStatus.equals("N") ? "disabled" : ""}>
-                </div>
-              </div>
-            </c:forEach>
-          </c:when>
-          <c:otherwise>
-            <p style="font-weight: bold; font-size: large">검색 결과가 없습니다</p>
-          </c:otherwise>
-        </c:choose>
+        <th:block th:if="${list.size()>0}">
+        <div th:each="item : ${list}" class='class-box'>
+          <div style='display: flex; align-items: center; justify-content: center'>
+            <button style="border: 0; background-color: transparent;" th:name="detail + ${item.getProd_no()}" class="contentDetail"><img th:attr="src='/storage/' + ${item.getProd_img()}" alt='이미지 없음'></button>
+          </div>
+          <div style='margin: 10px 0'>
+            <button style="border: 0; background-color: transparent;" th:name="detail + ${item.getProd_no()}" class="contentDetail"><span style='font-size: large'><strong th:text="${item.getProd_name()}"></strong></span></button>
+          </div>
+          <div style='color: #494846'>
+            <strong>[판매시작] </strong><span th:text="${item.getProd_start().substring(0, 16)}"></span><br>
+            <strong>[판매종료] </strong><span th:text="${item.getProd_end().substring(0, 16)}"></span><br>
+            <strong>[카테고리] </strong><span th:text='${item.getCate_large() + " > " + item.getCate_middle()}'></span>
+          </div>
+          <div>
+            <input type="button" class="btn btn-sm btn-outline-primary content-update" id="update${item.cont_no}" value="해빗수정" th:disabled='${item.getProd_end() < now}'>
+            <input type="button" class="btn btn-sm btn-primary content-delete" id="delete${item.cont_no}" value="해빗삭제" th:disabled='${#strings.equals(item.getProductPurchaseStatus(), "N")}'>
+          </div>
+        </div>
+        </th:block>
+        <p th:unless="${list.size()>0}" style="font-weight: bold; font-size: large">검색 결과가 없습니다</p>
       </div>
 
       <div class="d-grid gap-2" id="pagination">
-        <button class="btn btn-lg btn-outline-primary" id="seeMoreButton" type="button" ${vo.currentEndRowNum < vo.totalRecord ? '' : 'hidden'}>더보기</button>
+        <button th:if="${vo.currentEndRowNum < vo.totalRecord}" class="btn btn-lg btn-outline-primary" id="seeMoreButton" type="button">더보기</button>
       </div>
     </div>
   </div>
 </div>
 <!-- main 종료 -->
-
-<%@include file="contentUpdateModal.jsp"%>
 
 <script>
   /* 카카오 우편번호 찾기 */

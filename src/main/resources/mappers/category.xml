@@ -8,18 +8,25 @@
 
     <!-- 대분류 전체 select -->
     <select id="getLargeCategoryList" resultType="com.habit2.domain.host.model.CategoryEntity">
-        SELECT cate_large
+        SELECT CATE_LARGE
         FROM habit2.category
-        GROUP BY cate_large
-        ORDER BY cate_no
+        GROUP BY CATE_LARGE
+        ORDER BY CATE_NO
     </select>
 
     <!-- 대분류에 따른 중분류 select -->
     <select id="getMiddleCategoryList" parameterType="String" resultType="com.habit2.domain.host.model.CategoryEntity">
-        SELECT cate_middle
+        SELECT CATE_MIDDLE
         FROM habit2.category
-        WHERE cate_large = #{cate_large}
-        ORDER BY cate_no
+        WHERE CATE_LARGE = #{cate_large}
+        ORDER BY CATE_NO
+    </select>
+
+    <!-- 중분류로 카테고리 코드 찾기 -->
+    <select id="findCategoryNumber" parameterType="String" resultType="int">
+        SELECT CATE_NO
+        FROM habit2.category
+        WHERE CATE_MIDDLE = #{cate_middle}
     </select>
 
 </mapper>
