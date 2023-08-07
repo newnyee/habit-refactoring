@@ -12,4 +12,9 @@
             (#{entity.prod_no}, #{entity.host_id}, #{entity.opt_type}, #{entity.opt_name}, #{entity.opt_qty}, #{entity.opt_price})
         </foreach>
     </insert>
+
+    <delete id="deleteOption" parameterType="int">
+        DELETE FROM habit2.option
+        WHERE PROD_NO = ${prod_no}
+    </delete>
 </mapper>

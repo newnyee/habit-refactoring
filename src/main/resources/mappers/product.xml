@@ -67,4 +67,9 @@
         </if>
     </select>
     
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM habit2.product
+        WHERE PROD_NO = ${prod_no}
+    </delete>
+    
 </mapper>

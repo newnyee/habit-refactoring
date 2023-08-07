@@ -123,8 +123,8 @@
             <strong>[카테고리] </strong><span th:text='${item.getCate_large() + " > " + item.getCate_middle()}'></span>
           </div>
           <div>
-            <input type="button" class="btn btn-sm btn-outline-primary content-update" id="update${item.cont_no}" value="해빗수정" th:disabled='${item.getProd_end() < now}'>
-            <input type="button" class="btn btn-sm btn-primary content-delete" id="delete${item.cont_no}" value="해빗삭제" th:disabled='${#strings.equals(item.getProductPurchaseStatus(), "N")}'>
+            <input type="button" class="btn btn-sm btn-outline-primary product-update" th:id='${"update" + item.getProd_no()}' value="해빗수정" th:disabled='${item.getProd_end() < now}'>
+            <input type="button" class="btn btn-sm btn-primary product-delete" th:id='${"delete" + item.getProd_no()}' value="해빗삭제" th:disabled='${#strings.equals(item.getProductPurchaseStatus(), "N")}'>
           </div>
         </div>
         </th:block>

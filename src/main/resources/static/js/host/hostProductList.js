@@ -166,11 +166,11 @@ $(document).ready(()=> {
 
 
     // 해빗 삭제
-    $('#tableBody').on('click', '.content-delete', (e)=>{
+    $('#tableBody').on('click', '.product-delete', (e)=>{
 
         if (confirm('해빗을 삭제하시겠습니까?\n(삭제된 해빗은 복구할 수 없습니다)')) {
-            let cont_no = e.currentTarget.id.substring(6)
-            location.href='/host/content/delete/' + cont_no
+            let prod_no = e.currentTarget.id.substring(6)
+            location.href='/host/product/delete/' + prod_no
         } else {
             return false
         }

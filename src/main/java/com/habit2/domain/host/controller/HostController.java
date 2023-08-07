@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -237,5 +234,23 @@ public class HostController {
         model.addAttribute("list", list);
 
         return "pages/host/hostProductList";
+    }
+
+
+    // 상품 삭제
+    @GetMapping("/product/delete/{prod_no}")
+    public String productDelete(
+            @PathVariable int prod_no,
+            @SessionAttribute(name = "s_id", required = false) String mem_id,
+            Model model
+    ) {
+
+        if (hostService.deleteProduct(prod_no) == 1) {
+            model.addAttribute("message", "해빗이 삭제되었습니다.");
+            return productList(mem_id, model);
+        } else {
+            model.addAttribute("message", "해빗 삭제에 실패했습니다. 다시 시도해주세요.");
+            return productList(mem_id, model);
+        }
     }
 }

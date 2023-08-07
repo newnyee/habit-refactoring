@@ -264,6 +264,19 @@ public class HostServiceImpl implements HostService {
         productListDTO.getVo().setTotalRecord(totalRecord);
     }
 
+    @Override
+    public int deleteProduct(int prod_no) {
+
+        int result = 0;
+
+        if (hostRepository.deleteProduct(prod_no) == 1) {
+            if (hostRepository.deleteOption(prod_no) > 0) {
+                result = 1;
+            }
+        }
+        return result;
+    }
+
 
     // 메소드 =====================================================================================================
 

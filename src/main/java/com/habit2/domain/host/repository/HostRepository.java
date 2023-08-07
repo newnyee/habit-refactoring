@@ -31,4 +31,8 @@ public interface HostRepository {
     int getProductListTotalRecord(RequestProductListDto productListDTO);
 
     int productPurchaseCheck(int no);
+
+    int deleteProduct(int no);
+
+    int deleteOption(int no);
 }

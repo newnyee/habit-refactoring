@@ -111,4 +111,14 @@ public class HostRepositoryImpl implements HostRepository {
         return sqlSession.selectOne("orderDetails.productPurchaseCheck", prod_no);
     }
 
+    @Override
+    public int deleteProduct(int prod_no) {
+        return sqlSession.delete("product.deleteProduct", prod_no);
+    }
+
+    @Override
+    public int deleteOption(int prod_no) {
+        return sqlSession.delete("option.deleteOption", prod_no);
+    }
+
 }

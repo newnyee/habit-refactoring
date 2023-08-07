@@ -25,4 +25,6 @@ public interface HostService {
     List<ResponseProductListDTO> productList(RequestProductListDto requestProductListDto);
 
     void productListCount(RequestProductListDto productListDTO);
+
+    int deleteProduct(int no);
 }
