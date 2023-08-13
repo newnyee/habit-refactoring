@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
-      layout:fragment="Content"
->
+      th:replace="~{common/layouts/defaultLayout :: defaultLayout (~{::head}, ~{::title}, ~{::section})}">
 <head>
-  <title>찜 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
   <script src="/js/member/wish.js"></script>
   <link rel="stylesheet" href="/css/member/wish.css">
 </head>
+<title>찜 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
 
-<body>
-<!--header-->
+<section>
+  <!--header-->
 <div data-include-path="../header.html"></div>
 
 <!-- 본문 시작 -->
@@ -449,3 +446,4 @@
     });
   });
 </script>
+</section>

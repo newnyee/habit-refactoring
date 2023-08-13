@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 <head>
   <script src="/js/host/hostQuestionList.js"></script>
 </head>
 
-<body>
+<section>
   <!-- 페이지 이름 -->
   <p class="page-name">문의 관리</p>
 
@@ -120,5 +117,4 @@
   </div>
   <!-- main 종료 -->
 
-</body>
-</html>
+</section>

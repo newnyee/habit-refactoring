@@ -2,21 +2,22 @@
 <!--라이브러리 참조 : Thymeleaf & Thymeleaf Layout -->
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      th:fragment="hostLayout (head, content)">
 
 <!--공통 JS / CSS 영역을 관리하는 환경 영역-->
-<head th:replace="common/fragments/hostConfig :: HostConfigFragment"></head>
+<head th:replace="~{common/fragments/hostConfig :: hostConfigFragment}"></head>
+<head th:replace="${head}"></head>
 
 <body>
     <div class="container">
         <!--nav 영역을 참조합니다.-->
-        <header th:replace="common/fragments/hostNav :: HostNavFragment"></header>
+        <header th:replace="~{common/fragments/hostNav :: hostNavFragment}"></header>
 
         <!--Content 내용 영역을 참조합니다-->
-        <th:block layout:fragment="HostContent"></th:block>
+        <div th:replace="${content}"></div>
     </div>
     <!--Footer 영역을 참조합니다.-->
-    <footer th:replace="common/fragments/hostFooter :: HostFooterFragment"></footer>
+    <footer th:replace="~{common/fragments/hostFooter :: hostFooterFragment}"></footer>
 
     <script th:inline="javascript">
         if ([[${message}]] !== null) {

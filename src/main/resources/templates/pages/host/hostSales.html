@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 <head>
     <link rel="stylesheet" href="/css/host/hostSalesList.css">
     <script src="/js/host/hostSalesList.js"></script>
 </head>
 
-<body>
+<section>
     <!-- 페이지 이름 -->
     <p class="page-name">판매 관리</p>
 
@@ -242,5 +239,4 @@
     <!-- 회원 정보 모달 -->
     <div class="show_userInfo">
     </div>
-</body>
-</html>
+</section>

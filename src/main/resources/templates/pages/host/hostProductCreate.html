@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 <head>
+  <link rel="stylesheet" href="/css/summernote/summernote-lite.min.css">
   <script src="/js/host/hostProductCreate.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- 썸머 노트 사용을 위한 js, css 추가 시작 -->
   <script src="/js/summernote/summernote-lite.min.js"></script>
   <script src="/js/summernote/lang/summernote-ko-KR.js"></script>
-  <link rel="stylesheet" href="/css/summernote/summernote-lite.min.css">
   <!-- 썸머 노트 js, css 추가 종료 -->
 </head>
 
-<body>
+<section>
   <!-- 페이지 이름 -->
   <p class="page-name">해빗 등록</p>
 
@@ -524,5 +521,4 @@
     element_wrap.style.display = 'block';
   }
 </script>
-</body>
-</html>
+</section>

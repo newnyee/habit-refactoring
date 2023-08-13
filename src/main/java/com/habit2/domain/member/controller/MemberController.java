@@ -1,5 +1,7 @@
 package com.habit2.domain.member.controller;
 
+import com.habit2.domain.host.dto.HostLoginDto;
+import com.habit2.domain.host.service.HostService;
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
 import com.habit2.domain.member.dto.MemberLoginDto;
 import com.habit2.domain.member.service.MemberService;
@@ -22,6 +24,7 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
+    private final HostService hostService;
 
     @GetMapping("/mypage")
     public String myPage() {
@@ -76,6 +79,12 @@ public class MemberController {
             session.setAttribute("s_id", loginDto.getMem_id()); // 아이디
             session.setAttribute("s_name", loginDto.getMem_name()); // 닉네임
             session.setAttribute("s_class", loginDto.getMem_class()); // 회원 구분
+
+            if (loginDto.getMem_class().equals("H")) {
+                HostLoginDto hostLoginDto = hostService.hostLogin(memberLoginDto.getMem_id());
+                session.setAttribute("s_hostName", hostLoginDto.getHost_name()); // 호스트 닉네임
+                session.setAttribute("s_hostImg", hostLoginDto.getHost_img()); // 호스트 이미지
+            }
 
             return "redirect:" + redirectURL;
 

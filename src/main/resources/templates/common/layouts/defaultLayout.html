@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <!--라이브러리 참조 : Thymeleaf & Thymeleaf Layout -->
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      th:fragment="defaultLayout (head, title, content)"
+      xmlns:th="http://www.thymeleaf.org">
 
   <!--공통 JS / CSS 영역을 관리하는 환경 영역-->
-  <head th:replace="common/fragments/defaultConfig :: ConfigFragment"></head>
+  <head th:replace="~{common/fragments/defaultConfig :: configFragment}"></head>
+  <head th:replace="${head}"></head>
+  <head>
+    <title th:replace="${title}">해빗(habit) : 세상 모든 취미 여가의 시작</title>
+  </head>
 
   <body>
     <!--Header 영역을 참조합니다.-->
-    <header th:replace="common/fragments/defaultHeader :: HeaderFragment"></header>
+    <header th:replace="~{common/fragments/defaultHeader :: headerFragment}"></header>
 
     <!--Content 내용 영역을 참조합니다-->
-    <th:block layout:fragment="Content"></th:block>
+    <div th:replace="${content}"></div>
 
     <!--Footer 영역을 참조합니다.-->
-    <footer th:replace="common/fragments/defaultFooter :: FooterFragment"></footer>
+    <footer th:replace="~{common/fragments/defaultFooter :: footerFragment}"></footer>
 
     <script th:inline="javascript">
       if ([[${message}]] !== null) {

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -56,12 +57,12 @@ public class HostController {
 
     // 호스트 회원가입
     @GetMapping("/join")
-    public String joinForm(HttpSession session, Model model) {
+    public String joinForm(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
 
-        if (session.getAttribute("s_class") == null) { // 회원이 아닌경우
-            model.addAttribute("redirectURL", "/host/join");
-            model.addAttribute("message", "로그인 후 이용가능합니다.");
-            return "pages/member/login";
+        if (session.getAttribute("s_class") == null) { // 세션 기록이 없는 경우
+            redirectAttributes.addAttribute("loginMessage", true);
+            redirectAttributes.addAttribute("redirectURL", "/host/join");
+            return "redirect:/member/login";
 
         } else if (session.getAttribute("s_class").equals("M")) { // 회원인 경우
             return "pages/host/hostJoinForm";
@@ -82,8 +83,12 @@ public class HostController {
         hostJoinDto.setMem_id(mem_id);
 
         if (hostService.hostJoin(hostJoinDto) == 1) {
-            session.setAttribute("s_class", "H");
+            HostLoginDto loginDto = hostService.hostLogin(mem_id);
+            session.setAttribute("s_hostName", loginDto.getHost_name()); // 호스트 닉네임
+            session.setAttribute("s_hostImg", loginDto.getHost_img()); // 호스트 이미지
+            session.setAttribute("s_class", "H"); // 회원 구분
             return "redirect:/host";
+
         } else {
             model.addAttribute("message", "회원가입에 실패했습니다.");
             return "pages/host/hostJoinForm";
@@ -96,20 +101,17 @@ public class HostController {
     public String home(
             @SessionAttribute(name = "s_id", required = false) String mem_id,
             @SessionAttribute(name = "s_class", required = false) String mem_class,
+            RedirectAttributes redirectAttributes,
             Model model,
             HttpSession session
     ) {
 
         if (session.getAttribute("s_class") == null) {
-            model.addAttribute("message", "로그인 후 이용가능합니다.");
-            model.addAttribute("redirectURL", "/host");
-            return "pages/member/login";
+            redirectAttributes.addAttribute("loginMessage", true);
+            redirectAttributes.addAttribute("redirectURL", "/host");
+            return "redirect:/member/login";
 
         } else if (mem_class.equals("H")) { // 호스트일 때
-            HostLoginDto loginDto = hostService.hostLogin(mem_id);
-
-            session.setAttribute("s_hostName", loginDto.getHost_name());
-            session.setAttribute("s_hostImg", loginDto.getHost_img());
             return "pages/host/hostHome";
 
         } else { // 일반회원일 때
@@ -129,7 +131,11 @@ public class HostController {
 
     // 호스트 정보 수정
     @GetMapping("/info")
-    public String updateInfo(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
+    public String updateInfo(
+            @SessionAttribute(name = "s_id", required = false) String mem_id,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
 
         HostInfoDto hostInfoDto = hostService.getHostInfo(mem_id);
 
@@ -140,9 +146,9 @@ public class HostController {
             return "pages/host/hostInfo";
 
         } else {
-            model.addAttribute("redirectURL", "/host/info");
-            model.addAttribute("message", "로그인 후 이용가능합니다.");
-            return "pages/member/login";
+            redirectAttributes.addAttribute("loginMessage", true);
+            redirectAttributes.addAttribute("redirectURL", "/host/info");
+            return "redirect:/member/login";
         }
     }
 
@@ -175,14 +181,15 @@ public class HostController {
     @GetMapping("/product/create")
     public String createProduct(
             HttpSession session,
+            RedirectAttributes redirectAttributes,
             Model model,
             @SessionAttribute(name = "s_class", required = false) String mem_class
     ) {
 
         if (session.getAttribute("s_class") == null) {
-            model.addAttribute("redirectURL", "/host/product/create");
-            model.addAttribute("message", "로그인 후 이용가능합니다.");
-            return "pages/member/login";
+            redirectAttributes.addAttribute("loginMessage", true);
+            redirectAttributes.addAttribute("redirectURL", "/host/product/create");
+            return "redirect:/member/login";
 
         } else if (mem_class.equals("H")) { // 호스트일 때
             List<CategoryEntity> largeCategoryList = hostService.getLargeCategoryList();
@@ -199,6 +206,7 @@ public class HostController {
     public String createProductProcess(
             @SessionAttribute(name = "s_id", required = false) String mem_id,
             RequestProductInfoDto productInfoDto,
+            RedirectAttributes redirectAttributes,
             Model model
     ) throws IOException {
 
@@ -207,6 +215,7 @@ public class HostController {
         int result = hostService.createProduct(productInfoDto);
 
         if (result > 0) {
+            redirectAttributes.addAttribute("successCreateProductMessage", true);
             return "redirect:/host/product/list";
 
         } else {

@@ -2,17 +2,14 @@
 <!-- Default Layout Import-->
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/defaultLayout}"
-      layout:fragment="Content"
->
+      th:replace="~{common/layouts/defaultLayout :: defaultLayout (~{::head}, ~{::title}, ~{::section})}">
 <head>
-  <script src="/js/member/login.js"></script>
-  <link rel="stylesheet" href="/css/member/login.css">
-  <title>로그인 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
+  <script th:src="@{/js/member/login.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/member/login.css}">
 </head>
+<title>로그인 - 해빗(habit) : 세상 모든 취미 여가의 시작</title>
 
-<body>
+<section>
   <!-- 본문 시작 -->
   <div class="Home">
     <div class="Home_top">
@@ -22,7 +19,7 @@
     <div class="Home_loginForm">
       <div th:if="${error!=null}" style="color: red; margin-bottom: 3px; text-align: center" th:text="${error}"></div>
       <form action="/member/login" method="post">
-        <input type="hidden" th:value="${redirectURL}" name="redirectURL">
+        <input th:if="${param.redirectURL!=null}" type="hidden" th:value="${param.redirectURL}" name="redirectURL">
         <div class="Home_loginForm_input"><input type="text" name="mem_id" placeholder="아이디(이메일)"></div>
         <div class="Home_loginForm_input"><input type="password" name="mem_pw" placeholder="비밀번호"></div>
         <div style="text-align: center">
@@ -33,5 +30,8 @@
       </form>
     </div>
   </div>
+  <script th:inline="javascript" th:if="${param.loginMessage}">
+    alert("로그인 후 이용해주세요.");
+  </script>
   <!-- 본문 끝-->
-</body>
+</section>

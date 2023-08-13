@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 <head>
   <script src="/js/host/hostProductList.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
-<body>
+<section>
   <!-- 페이지 이름 -->
   <p class="page-name">해빗 목록</p>
 
@@ -138,6 +135,9 @@
   </div>
 </div>
 <!-- main 종료 -->
+<script th:inline="javascript" th:if="${param.successCreateProductMessage}">
+  alert("해빗 등록이 완료되었습니다.");
+</script>
 
 <script>
   /* 카카오 우편번호 찾기 */
@@ -215,5 +215,4 @@
     element_wrap.style.display = 'block';
   }
 </script>
-</body>
-</html>
+</section>

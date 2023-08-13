@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 <head>
-  <script src="/js/host/hostCalculateList.js"></script>
-  <link rel="stylesheet" href="/css/host/hostCalculateList.css">
+  <script th:src="@{/js/host/hostCalculateList.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/host/hostCalculateList.css}">
 </head>
 
-<body>
+<section>
  <!-- 페이지 이름 -->
   <p class="page-name">정산서 관리</p>
 
@@ -206,5 +203,4 @@
     </div>
   </div>
   <!-- main 종료 -->
-</body>
-</html>
+</section>

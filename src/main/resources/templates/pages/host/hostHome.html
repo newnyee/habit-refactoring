@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{common/layouts/hostLayout}"
-      layout:fragment="HostContent"
->
+      th:replace="~{common/layouts/hostLayout :: hostLayout (~{::head}, ~{::section})}">
 
-<body>
+<head></head>
+<section>
   <!-- 페이지 이름 -->
   <p class="page-name">호스트 관리 페이지 홈</p>
 
@@ -62,5 +60,4 @@
       </div>
     </div>
   <!-- main 종료 -->
-</body>
-</html>
+</section>
