@@ -103,13 +103,12 @@ public class MemberController {
 
     // 로그아웃
     @GetMapping("/logout")
-    public String logout(HttpSession session, Model model) {
+    public String logout(HttpSession session) {
 
         // 현재 세션을 무효화하여 모든 세션 정보를 삭제
         session.invalidate();
-        model.addAttribute("message", "로그아웃 되었습니다.");
 
         // 홈으로 이동
-        return "pages/intro";
+        return "redirect:/";
     }
 }

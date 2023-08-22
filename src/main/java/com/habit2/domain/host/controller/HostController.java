@@ -57,7 +57,12 @@ public class HostController {
 
     // 호스트 회원가입
     @GetMapping("/join")
-    public String joinForm(HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+    public String joinForm(
+            HttpSession session,
+            @RequestParam(required = false) String redirectURL,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
 
         if (session.getAttribute("s_class") == null) { // 세션 기록이 없는 경우
             redirectAttributes.addAttribute("loginMessage", true);
@@ -65,6 +70,11 @@ public class HostController {
             return "redirect:/member/login";
 
         } else if (session.getAttribute("s_class").equals("M")) { // 회원인 경우
+
+            if (redirectURL != null) {
+                model.addAttribute("joinMessage", "호스트 가입 후 이용 가능합니다.");
+            }
+
             return "pages/host/hostJoinForm";
 
         } else { // 호스트인경우
@@ -76,6 +86,7 @@ public class HostController {
     public String join(
             RequestHostJoinDto hostJoinDto,
             @SessionAttribute(name = "s_id", required = false) String mem_id,
+            @RequestParam(defaultValue = "/host") String redirectURL,
             HttpSession session,
             Model model
     ) throws IOException {
@@ -87,7 +98,7 @@ public class HostController {
             session.setAttribute("s_hostName", loginDto.getHost_name()); // 호스트 닉네임
             session.setAttribute("s_hostImg", loginDto.getHost_img()); // 호스트 이미지
             session.setAttribute("s_class", "H"); // 회원 구분
-            return "redirect:/host";
+            return "redirect:" + redirectURL;
 
         } else {
             model.addAttribute("message", "회원가입에 실패했습니다.");
@@ -105,20 +116,7 @@ public class HostController {
             Model model,
             HttpSession session
     ) {
-
-        if (session.getAttribute("s_class") == null) {
-            redirectAttributes.addAttribute("loginMessage", true);
-            redirectAttributes.addAttribute("redirectURL", "/host");
-            return "redirect:/member/login";
-
-        } else if (mem_class.equals("H")) { // 호스트일 때
-            return "pages/host/hostHome";
-
-        } else { // 일반회원일 때
-            model.addAttribute("message", "호스트 가입 후 이용 가능합니다.");
-            return "pages/host/hostJoinForm";
-        }
-
+        return "pages/host/hostHome";
     }
 
 

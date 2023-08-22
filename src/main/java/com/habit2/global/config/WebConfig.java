@@ -1,5 +1,6 @@
 package com.habit2.global.config;
 
+import com.habit2.global.interceptor.HostLoginCheckInterceptor;
 import com.habit2.global.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,5 +19,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/img/**", "/js/**", "/css/**", "*.ico", "/error", "/error-page/**", "/storage/**",
                         "/", "/member/login", "/member/logout", "/category/**");
+
+        registry.addInterceptor(new HostLoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/host/**")
+                .excludePathPatterns("/host/join", "*.ico");
     }
 }

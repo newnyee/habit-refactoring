@@ -548,10 +548,8 @@
 </footer>
 <!--footer 끝-->
 
-  <script th:inline="javascript">
-    if ([[${message}]] !== null) {
-      alert([[${message}]]);
-    }
+  <script th:inline="javascript" th:if="${message}">
+    alert([[${message}]]);
   </script>
 
 </body>

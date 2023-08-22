@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://tymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +31,7 @@
     <div class="content">
       <p class="content-name">프로필 관리</p>
       <!-- 프로필 관리 form 시작 -->
-      <form action="/host/join" method="post" onsubmit="return checkNewHost()" enctype="multipart/form-data">
+      <form th:action method="post" onsubmit="return checkNewHost()" enctype="multipart/form-data">
         <!-- 프로필 사진 -->
         <div class="content-flex">
           <div class="item-name">
@@ -133,10 +133,8 @@
 </footer>
 <!--footer 종료-->
 
-<script th:inline="javascript">
-  if ([[${message}]] !== null) {
-    alert([[${message}]]);
-  }
+<script th:inline="javascript" th:if="${joinMessage}">
+    alert([[${joinMessage}]])
 </script>
 
 </body>
