@@ -55,10 +55,10 @@ public class HostRestController {
 
     // 상품 리스트(더보기)
     @PostMapping("/product/list/seemore")
-    public Map<String, Object> contentList (@SessionAttribute(name = "s_id") String s_id, @RequestBody RequestProductListDto productListDto) {
+    public Map<String, Object> contentList (@SessionAttribute(name = "s_id") String mem_id, @RequestBody RequestProductListDto productListDto) {
 
         productListDto.getVo().setClick(productListDto.getClick());
-        productListDto.setHost_id(s_id);
+        productListDto.setHost_id(mem_id);
 
         List<ResponseProductListDTO> list = hostService.productList(productListDto);
         hostService.productListCount(productListDto);

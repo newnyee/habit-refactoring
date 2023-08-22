@@ -136,7 +136,7 @@
 </div>
 <!-- main 종료 -->
 <script th:inline="javascript" th:if="${param.successCreateProductMessage}">
-  alert("해빗 등록이 완료되었습니다.");
+  alert([[${param.successCreateProductMessage}]]);
 </script>
 
 <script>

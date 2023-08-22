@@ -6,6 +6,7 @@ import com.habit2.domain.member.dto.RequestMemberJoinDto;
 import com.habit2.domain.member.dto.RequestMemberLoginDto;
 import com.habit2.domain.member.dto.ResponseMemberLoginDto;
 import com.habit2.domain.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -43,28 +45,25 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join (RequestMemberJoinDto memberJoinDto, Model model) throws IOException {
+    public String join (RequestMemberJoinDto memberJoinDto, RedirectAttributes redirectAttributes) throws IOException {
+
         int result = memberService.memberJoin(memberJoinDto);
 
         if (result == 1) {
-            return "redirect:/member/login";
+            redirectAttributes.addFlashAttribute("message", "회원가입이 완료되었습니다.");
         } else {
-            model.addAttribute("message", "회원가입에 실패했습니다.");
-            return "pages/member/memberJoinForm";
+            redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다.");
         }
+
+        return "redirect:/member/login";
     }
 
 
     // 로그인
     @GetMapping("/login")
     public String loginForm(
-            @ModelAttribute("loginDto")RequestMemberLoginDto loginDto,
-            @RequestParam(required = false) String redirectURL,
-            Model model
+            @ModelAttribute("loginDto")RequestMemberLoginDto loginDto
     ) {
-        if (redirectURL != null) {
-            model.addAttribute("loginMessage", "로그인 후 이용해 주세요.");
-        }
         return "pages/member/login";
     }
 
@@ -72,7 +71,7 @@ public class MemberController {
     public String login(
             @Validated RequestMemberLoginDto requestMemberLoginDto,
             HttpSession session,
-            Model model,
+            RedirectAttributes redirectAttributes,
             @RequestParam(defaultValue = "/") String redirectURL) {
 
         // 회원 정보 조회
@@ -95,18 +94,19 @@ public class MemberController {
             return "redirect:" + redirectURL;
 
         } else {
-            model.addAttribute("redirectURL", redirectURL);
-            model.addAttribute("error", "아이디 또는 비밀번호를 다시 입력해주세요");
-            return "pages/member/login";
+            redirectAttributes.addFlashAttribute("error", "아이디 또는 비밀번호를 다시 입력해주세요");
+            return "redirect:/member/login?redirectURL=" + redirectURL;
         }
     }
 
     // 로그아웃
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
 
         // 현재 세션을 무효화하여 모든 세션 정보를 삭제
         session.invalidate();
+
+        redirectAttributes.addFlashAttribute("message", "로그아웃 되었습니다.");
 
         // 홈으로 이동
         return "redirect:/";

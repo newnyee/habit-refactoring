@@ -57,24 +57,16 @@ public class HostController {
 
     // 호스트 회원가입
     @GetMapping("/join")
-    public String joinForm(
-            HttpSession session,
-            @RequestParam(required = false) String redirectURL,
-            RedirectAttributes redirectAttributes,
-            Model model
-    ) {
+    public String joinForm(HttpSession session, @RequestParam(required = false) String redirectURL, Model model) {
 
         if (session.getAttribute("s_class") == null) { // 세션 기록이 없는 경우
-            redirectAttributes.addAttribute("loginMessage", true);
-            redirectAttributes.addAttribute("redirectURL", "/host/join");
-            return "redirect:/member/login";
+            return "redirect:/member/login?redirectURL=/host/join";
 
         } else if (session.getAttribute("s_class").equals("M")) { // 회원인 경우
 
             if (redirectURL != null) {
                 model.addAttribute("joinMessage", "호스트 가입 후 이용 가능합니다.");
             }
-
             return "pages/host/hostJoinForm";
 
         } else { // 호스트인경우
@@ -88,7 +80,7 @@ public class HostController {
             @SessionAttribute(name = "s_id", required = false) String mem_id,
             @RequestParam(defaultValue = "/host") String redirectURL,
             HttpSession session,
-            Model model
+            RedirectAttributes redirectAttributes
     ) throws IOException {
 
         hostJoinDto.setMem_id(mem_id);
@@ -101,8 +93,8 @@ public class HostController {
             return "redirect:" + redirectURL;
 
         } else {
-            model.addAttribute("message", "회원가입에 실패했습니다.");
-            return "pages/host/hostJoinForm";
+            redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다.");
+            return "redirect:/host/join";
         }
     }
 
@@ -110,11 +102,6 @@ public class HostController {
     // 호스트 홈 (로그인) - 미완성
     @GetMapping
     public String home(
-            @SessionAttribute(name = "s_id", required = false) String mem_id,
-            @SessionAttribute(name = "s_class", required = false) String mem_class,
-            RedirectAttributes redirectAttributes,
-            Model model,
-            HttpSession session
     ) {
         return "pages/host/hostHome";
     }
@@ -129,11 +116,7 @@ public class HostController {
 
     // 호스트 정보 수정
     @GetMapping("/info")
-    public String updateInfo(
-            @SessionAttribute(name = "s_id", required = false) String mem_id,
-            RedirectAttributes redirectAttributes,
-            Model model
-    ) {
+    public String updateInfo(@SessionAttribute(name = "s_id", required = false) String mem_id, Model model) {
 
         HostInfoDto hostInfoDto = hostService.getHostInfo(mem_id);
 
@@ -144,9 +127,7 @@ public class HostController {
             return "pages/host/hostInfo";
 
         } else {
-            redirectAttributes.addAttribute("loginMessage", true);
-            redirectAttributes.addAttribute("redirectURL", "/host/info");
-            return "redirect:/member/login";
+            return "redirect:/member/login?redirectURL=/host/info";
         }
     }
 
@@ -154,7 +135,8 @@ public class HostController {
     public String updateInfoProcess(
             @SessionAttribute(name = "s_id", required = false) String mem_id,
             HostInfoDto hostInfoDto,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes
     ) throws IOException {
         log.debug("host update info={}", hostInfoDto);
         hostInfoDto.setHost_id(mem_id);
@@ -166,46 +148,28 @@ public class HostController {
         model.addAttribute("hostInfoDto", newHostInfoDto);
 
         if (result == 1) {
-            model.addAttribute("message", "호스트 정보가 수정되었습니다.");
+            redirectAttributes.addFlashAttribute("message", "호스트 정보가 수정되었습니다.");
         } else {
-            model.addAttribute("message", "호스트 정보 수정에 실패하였습니다. 다시 시도해주세요.");
+            redirectAttributes.addFlashAttribute("message", "호스트 정보 수정에 실패하였습니다. 다시 시도해주세요.");
         }
 
-        return "pages/host/hostInfo";
+        return "redirect:/host/info";
     }
 
 
     // 상품 등록
     @GetMapping("/product/create")
-    public String createProduct(
-            HttpSession session,
-            RedirectAttributes redirectAttributes,
-            Model model,
-            @SessionAttribute(name = "s_class", required = false) String mem_class
-    ) {
-
-        if (session.getAttribute("s_class") == null) {
-            redirectAttributes.addAttribute("loginMessage", true);
-            redirectAttributes.addAttribute("redirectURL", "/host/product/create");
-            return "redirect:/member/login";
-
-        } else if (mem_class.equals("H")) { // 호스트일 때
-            List<CategoryEntity> largeCategoryList = hostService.getLargeCategoryList();
-            model.addAttribute("largeCategoryList", largeCategoryList);
-            return "pages/host/hostProductCreate";
-
-        } else { // 일반회원일 때
-            model.addAttribute("message", "호스트 가입 후 이용 가능합니다.");
-            return "pages/host/hostJoinForm";
-        }
+    public String createProduct(Model model) {
+        List<CategoryEntity> largeCategoryList = hostService.getLargeCategoryList();
+        model.addAttribute("largeCategoryList", largeCategoryList);
+        return "pages/host/hostProductCreate";
     }
 
     @PostMapping("/product/create")
     public String createProductProcess(
             @SessionAttribute(name = "s_id", required = false) String mem_id,
             RequestProductInfoDto productInfoDto,
-            RedirectAttributes redirectAttributes,
-            Model model
+            RedirectAttributes redirectAttributes
     ) throws IOException {
 
         productInfoDto.setHost_id(mem_id);
@@ -213,12 +177,12 @@ public class HostController {
         int result = hostService.createProduct(productInfoDto);
 
         if (result > 0) {
-            redirectAttributes.addAttribute("successCreateProductMessage", true);
+            redirectAttributes.addFlashAttribute("successCreateProductMessage", "해빗 등록이 완료되었습니다.");
             return "redirect:/host/product/list";
 
         } else {
-            model.addAttribute("message", "해빗 등록에 실패하였습니다.");
-            return "pages/host/hostProductCreate";
+            redirectAttributes.addFlashAttribute("message", "해빗 등록에 실패하였습니다.");
+            return "redirect:/host/product/create";
         }
     }
 
@@ -249,15 +213,14 @@ public class HostController {
     public String productDelete(
             @PathVariable int prod_no,
             @SessionAttribute(name = "s_id", required = false) String mem_id,
-            Model model
+            RedirectAttributes redirectAttributes
     ) {
 
         if (hostService.deleteProduct(prod_no) == 1) {
-            model.addAttribute("message", "해빗이 삭제되었습니다.");
-            return productList(mem_id, model);
+            redirectAttributes.addFlashAttribute("message", "해빗이 삭제되었습니다.");
         } else {
-            model.addAttribute("message", "해빗 삭제에 실패했습니다. 다시 시도해주세요.");
-            return productList(mem_id, model);
+            redirectAttributes.addFlashAttribute("message", "해빗 삭제에 실패했습니다. 다시 시도해주세요.");
         }
+        return "redirect:/host/product/list";
     }
 }
