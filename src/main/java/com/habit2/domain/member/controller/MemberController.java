@@ -3,17 +3,16 @@ package com.habit2.domain.member.controller;
 import com.habit2.domain.host.dto.HostLoginDto;
 import com.habit2.domain.host.service.HostService;
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
-import com.habit2.domain.member.dto.MemberLoginDto;
+import com.habit2.domain.member.dto.RequestMemberLoginDto;
+import com.habit2.domain.member.dto.ResponseMemberLoginDto;
 import com.habit2.domain.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -58,19 +57,26 @@ public class MemberController {
 
     // 로그인
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(
+            @ModelAttribute("loginDto")RequestMemberLoginDto loginDto,
+            @RequestParam(required = false) String redirectURL,
+            Model model
+    ) {
+        if (redirectURL != null) {
+            model.addAttribute("loginMessage", "로그인 후 이용해 주세요.");
+        }
         return "pages/member/login";
     }
 
     @PostMapping("/login")
     public String login(
-            MemberLoginDto memberLoginDto,
+            @Validated RequestMemberLoginDto requestMemberLoginDto,
             HttpSession session,
             Model model,
-            @RequestParam(value = "redirectURL",defaultValue = "/") String redirectURL) {
+            @RequestParam(defaultValue = "/") String redirectURL) {
 
         // 회원 정보 조회
-        MemberLoginDto loginDto = memberService.memberLogin(memberLoginDto);
+        ResponseMemberLoginDto loginDto = memberService.memberLogin(requestMemberLoginDto);
 
         // 로그인 성공 여부 확인
         if(loginDto != null) {
@@ -81,7 +87,7 @@ public class MemberController {
             session.setAttribute("s_class", loginDto.getMem_class()); // 회원 구분
 
             if (loginDto.getMem_class().equals("H")) {
-                HostLoginDto hostLoginDto = hostService.hostLogin(memberLoginDto.getMem_id());
+                HostLoginDto hostLoginDto = hostService.hostLogin(requestMemberLoginDto.getMem_id());
                 session.setAttribute("s_hostName", hostLoginDto.getHost_name()); // 호스트 닉네임
                 session.setAttribute("s_hostImg", hostLoginDto.getHost_img()); // 호스트 이미지
             }

@@ -12,7 +12,7 @@
     </insert>
 
     <!-- 로그인 -->
-    <select id="findMemberToLogin" parameterType="com.habit2.domain.member.model.Member" resultType="com.habit2.domain.member.dto.MemberLoginDto">
+    <select id="findMemberToLogin" parameterType="com.habit2.domain.member.dto.RequestMemberLoginDto" resultType="com.habit2.domain.member.dto.ResponseMemberLoginDto">
         SELECT mem_id, mem_name, mem_class
         FROM habit2.member
         WHERE mem_id=#{mem_id} AND mem_pw=#{mem_pw}

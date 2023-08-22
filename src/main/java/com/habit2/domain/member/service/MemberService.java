@@ -1,7 +1,8 @@
 package com.habit2.domain.member.service;
 
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
-import com.habit2.domain.member.dto.MemberLoginDto;
+import com.habit2.domain.member.dto.RequestMemberLoginDto;
+import com.habit2.domain.member.dto.ResponseMemberLoginDto;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,5 +11,5 @@ import java.io.IOException;
 public interface MemberService {
     int memberJoin(RequestMemberJoinDto requestMemberJoinDto) throws IOException;
 
-    MemberLoginDto memberLogin(MemberLoginDto memberLoginDto);
+    ResponseMemberLoginDto memberLogin(RequestMemberLoginDto requestMemberLoginDto);
 }

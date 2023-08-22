@@ -18,10 +18,9 @@
 
     <div class="Home_loginForm">
       <div th:if="${error!=null}" style="color: red; margin-bottom: 3px; text-align: center" th:text="${error}"></div>
-      <form action="/member/login" method="post">
-        <input th:if="${param.redirectURL!=null}" type="hidden" th:value="${param.redirectURL}" name="redirectURL">
-        <div class="Home_loginForm_input"><input type="text" name="mem_id" placeholder="아이디(이메일)"></div>
-        <div class="Home_loginForm_input"><input type="password" name="mem_pw" placeholder="비밀번호"></div>
+      <form action="/member/login" method="post" th:object="${loginDto}">
+        <div class="Home_loginForm_input"><input type="text" th:field="*{mem_id}" placeholder="아이디(이메일)"></div>
+        <div class="Home_loginForm_input"><input type="password" th:field="*{mem_pw}" placeholder="비밀번호"></div>
         <div style="text-align: center">
           <a href="/member/join" class="Home_find_a1">회원가입</a> |
           <a href="/findMember" class="Home_find_a2">아이디/비밀번호 찾기</a><br>
@@ -30,8 +29,8 @@
       </form>
     </div>
   </div>
-  <script th:inline="javascript" th:if="${param.loginMessage}">
-    alert("로그인 후 이용해주세요.");
+  <script th:inline="javascript" th:if="${loginMessage}">
+    alert([[${loginMessage}]]);
   </script>
   <!-- 본문 끝-->
 </section>

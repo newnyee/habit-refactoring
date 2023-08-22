@@ -1,7 +1,8 @@
 package com.habit2.domain.member.repository;
 
 import com.habit2.domain.member.dto.RequestMemberJoinDto;
-import com.habit2.domain.member.dto.MemberLoginDto;
+import com.habit2.domain.member.dto.RequestMemberLoginDto;
+import com.habit2.domain.member.dto.ResponseMemberLoginDto;
 import com.habit2.domain.member.model.Member;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
@@ -32,13 +33,9 @@ public class MemberRepositoryImpl implements MemberRepository{
 
     // 회원 찾기 (로그인)
     @Override
-    public MemberLoginDto findMemberToLogin(MemberLoginDto memberLoginDto) {
+    public ResponseMemberLoginDto findMemberToLogin(RequestMemberLoginDto requestMemberLoginDto) {
 
-        return sqlSession.selectOne("member.findMemberToLogin",
-                Member.builder()
-                .mem_id(memberLoginDto.getMem_id())
-                .mem_pw(memberLoginDto.getMem_pw())
-                .build());
+        return sqlSession.selectOne("member.findMemberToLogin", requestMemberLoginDto);
     }
 
     // 회원 핸드폰 번호 찾기 (호스트 회원가입)
